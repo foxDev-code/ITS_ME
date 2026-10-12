@@ -9,6 +9,7 @@ const out=path.resolve('outputs/satyarth-portfolio');
 const profile=JSON.parse(await fs.readFile('content/profile.json','utf8'));
 const projects=JSON.parse(await fs.readFile('content/projects.json','utf8'));
 const replacements=JSON.parse(await fs.readFile('content/replacements.json','utf8'));
+for(const key of ['Jackie Zhang','Jackie','JACKIE','jackie'])replacements[key]=profile.siteName;
 const escapeRegExp=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 const htmlEscape=s=>s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 const longKeys=Object.keys(replacements).filter(x=>x.length>12).sort((a,b)=>b.length-a.length);

@@ -1,6 +1,6 @@
-# Satyarth Mishra — ITS_ME
+# foxDev — Satyarth Mishra’s portfolio
 
-An interactive portfolio exploring AI engineering, thoughtful digital products and visual storytelling. Built around paper textures, editorial typography, a Polaroid portrait and playful motion.
+foxDev is Satyarth Mishra’s interactive portfolio exploring AI engineering, thoughtful digital products and visual storytelling. Built around paper textures, editorial typography, a Polaroid portrait and playful motion.
 
 ## Watch the portfolio film
 

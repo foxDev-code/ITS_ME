@@ -1,38 +1,38 @@
 [
   {
     "shareImage": "share-default-placeholder.png",
-    "shareAlt": "Satyarth Mishra portfolio card with cream paper, vermilion accents and a chip sketch",
+    "shareAlt": "foxDev portfolio card with cream paper, vermilion accents and a chip sketch",
     "url": "/",
     "name": "AI, Design & Code",
     "description": "Explore Satyarth Mishra’s work across AI engineering, digital products and visual design, with selected projects and creative experiments.",
-    "title": "AI, Design & Code | Satyarth Mishra",
+    "title": "AI, Design & Code | foxDev",
     "canonical": "http://localhost:4173/"
   },
   {
     "shareImage": "share-default-placeholder.png",
-    "shareAlt": "Satyarth Mishra portfolio card with cream paper, vermilion accents and a chip sketch",
+    "shareAlt": "foxDev portfolio card with cream paper, vermilion accents and a chip sketch",
     "url": "/work",
     "name": "Projects & Experiments",
     "description": "Explore projects in crop awareness, safety interfaces, mobility and AI workflows, alongside smaller technical and creative experiments.",
-    "title": "Projects & Experiments | Satyarth Mishra",
+    "title": "Projects & Experiments | foxDev",
     "canonical": "http://localhost:4173/work"
   },
   {
     "shareImage": "share-default-placeholder.png",
-    "shareAlt": "Satyarth Mishra portfolio card with cream paper, vermilion accents and a chip sketch",
+    "shareAlt": "foxDev portfolio card with cream paper, vermilion accents and a chip sketch",
     "url": "/about",
     "name": "About Me",
     "description": "Meet Satyarth Mishra, a Computer Science and AI student in Greater Noida exploring engineering, visual design and creative collaboration.",
-    "title": "About Me | Satyarth Mishra",
+    "title": "About Me | foxDev",
     "canonical": "http://localhost:4173/about"
   },
   {
     "shareImage": "share-default-placeholder.png",
-    "shareAlt": "Satyarth Mishra portfolio card with cream paper, vermilion accents and a chip sketch",
+    "shareAlt": "foxDev portfolio card with cream paper, vermilion accents and a chip sketch",
     "url": "/privacy",
     "name": "Privacy Policy",
     "description": "How Satyarth Mishra’s portfolio handles email contact, optional analytics, browser storage and external services. A privacy template for owner review.",
-    "title": "Privacy Policy | Satyarth Mishra",
+    "title": "Privacy Policy | foxDev",
     "canonical": "http://localhost:4173/privacy"
   },
   {
@@ -41,7 +41,7 @@
     "url": "/projects/agri-sarthi/",
     "name": "Agri Sarthi",
     "description": "An interactive crop-awareness experience that helps make early observation and field scouting easier to understand.",
-    "title": "Agri Sarthi | Satyarth Mishra",
+    "title": "Agri Sarthi | foxDev",
     "canonical": "http://localhost:4173/projects/agri-sarthi/"
   },
   {
@@ -50,52 +50,52 @@
     "url": "/projects/suraksha-one/",
     "name": "Suraksha One",
     "description": "A smart-helmet concept and supervisor interface exploring clearer safety signals, worker status and emergency response.",
-    "title": "Suraksha One | Satyarth Mishra",
+    "title": "Suraksha One | foxDev",
     "canonical": "http://localhost:4173/projects/suraksha-one/"
   },
   {
     "shareImage": "share-default-placeholder.png",
-    "shareAlt": "Satyarth Mishra portfolio card with cream paper, vermilion accents and a chip sketch",
+    "shareAlt": "foxDev portfolio card with cream paper, vermilion accents and a chip sketch",
     "url": "/projects/metromaarg/",
     "name": "MetroMaarg",
     "description": "A metro travel prototype bringing route planning, ticket journeys and operational dashboards into one experience.",
-    "title": "MetroMaarg | Satyarth Mishra",
+    "title": "MetroMaarg | foxDev",
     "canonical": "http://localhost:4173/projects/metromaarg/"
   },
   {
     "shareImage": "share-default-placeholder.png",
-    "shareAlt": "Satyarth Mishra portfolio card with cream paper, vermilion accents and a chip sketch",
+    "shareAlt": "foxDev portfolio card with cream paper, vermilion accents and a chip sketch",
     "url": "/projects/nexus-ai-ops/",
     "name": "Nexus AI Ops",
     "description": "An agency operations prototype connecting content, briefs, campaign review and reporting with AI-assisted workflows.",
-    "title": "Nexus AI Ops | Satyarth Mishra",
+    "title": "Nexus AI Ops | foxDev",
     "canonical": "http://localhost:4173/projects/nexus-ai-ops/"
   },
   {
     "shareImage": "share-default-placeholder.png",
-    "shareAlt": "Satyarth Mishra portfolio card with cream paper, vermilion accents and a chip sketch",
+    "shareAlt": "foxDev portfolio card with cream paper, vermilion accents and a chip sketch",
     "url": "/projects/resume-intelligence/",
     "name": "Resume Intelligence",
     "description": "A document-analysis prototype combining PDF extraction, semantic retrieval and structured résumé-to-role comparisons.",
-    "title": "Resume Intelligence | Satyarth Mishra",
+    "title": "Resume Intelligence | foxDev",
     "canonical": "http://localhost:4173/projects/resume-intelligence/"
   },
   {
     "shareImage": "share-default-placeholder.png",
-    "shareAlt": "Satyarth Mishra portfolio card with cream paper, vermilion accents and a chip sketch",
+    "shareAlt": "foxDev portfolio card with cream paper, vermilion accents and a chip sketch",
     "url": "/projects/qa-matrix/",
     "name": "QA Matrix",
     "description": "An AI-assisted quality workflow exploring test planning, automation generation and failure analysis from requirements.",
-    "title": "QA Matrix | Satyarth Mishra",
+    "title": "QA Matrix | foxDev",
     "canonical": "http://localhost:4173/projects/qa-matrix/"
   },
   {
     "shareImage": "share-default-placeholder.png",
-    "shareAlt": "Satyarth Mishra portfolio card with cream paper, vermilion accents and a chip sketch",
+    "shareAlt": "foxDev portfolio card with cream paper, vermilion accents and a chip sketch",
     "url": "/projects/veena-rover/",
     "name": "VEENA Rover",
     "description": "A disaster-response rover project exploring person detection, environmental sensing and operator communication.",
-    "title": "VEENA Rover | Satyarth Mishra",
+    "title": "VEENA Rover | foxDev",
     "canonical": "http://localhost:4173/projects/veena-rover/"
   }
 ]

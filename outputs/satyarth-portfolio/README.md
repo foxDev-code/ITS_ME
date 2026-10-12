@@ -1,4 +1,4 @@
-# Satyarth's portfolio
+# foxDev — Satyarth’s portfolio
 
 Privacy and optional analytics setup are documented in `PRIVACY-AND-ANALYTICS.md`. Contact remains email-only. Set a real `GA_MEASUREMENT_ID` in the build environment to enable opt-in analytics; the placeholder `G-XXXXXXXXXX` leaves tracking disabled. Review the `/privacy` template before launch. `/thank-you` is noindex and is not an email delivery receipt.
 

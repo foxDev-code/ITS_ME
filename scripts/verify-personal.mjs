@@ -24,6 +24,8 @@ for(const file of files){
  }
 }
 const profile=JSON.parse(await fs.readFile(path.join(root,'personal/profile.json')));
+assert.equal(profile.siteName,'foxDev');
+assert.equal(profile.name,'Satyarth Mishra','Keep the person distinct from the website brand');
 assert.equal(profile.github,'https://github.com/foxDev-code');
 assert.equal(profile.githubCta,'For more projects, visit my GitHub ↗');
 const projects=JSON.parse(await fs.readFile(path.join(root,'personal/projects.json')));
@@ -88,6 +90,11 @@ assert.equal(profile.intro,'I turn ideas into intelligent products—connecting 
 // Regression: the stacked value cards require opaque paper, not icon-only SVGs.
 const home=await fs.readFile(path.join(root,'index.html'),'utf8');
 const publicPages=JSON.parse(await fs.readFile(path.join(root,'personal/pages.json'),'utf8'));
+for(const page of publicPages)assert(page.title.endsWith(' | '+profile.siteName),'Every public page title must use the site brand');
+assert(styles.includes('[data-framer-name="signature"]::after{content:"Satyarth"'),'Keep the personal name beneath the portrait');
+assert(enhancements.includes("signature.setAttribute('aria-label',profile.name)"),'Portrait signature must retain the personal identity');
+assert(enhancements.includes("value===profile.siteName.toLowerCase()"),'The branded About link must remain keyboard accessible');
+for(const project of projects)assert((await fs.readFile(path.join(root,'projects',project.id,'index.html'),'utf8')).includes('class="sm-wordmark" href="/">foxDev</a>'),'Project navigation must use the site brand');
 for(const page of publicPages)assert(!/jackie|jackielszhang/i.test(await fs.readFile(path.join(root,page.url,'index.html'),'utf8')),`Reference identity leaked into ${page.url}`);
 for(const file of files.filter(file=>file.endsWith('.mjs')||/^searchIndex-.*\.json$/.test(path.basename(file)))){
  const text=await fs.readFile(file,'utf8');

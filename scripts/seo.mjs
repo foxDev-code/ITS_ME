@@ -30,7 +30,7 @@ export async function buildSEO(out,projects,profile,origin){
   if(!Object.hasOwn(alts,key))throw Error('Image needs an alt-text review: '+src);
   return tag.replace(/\s+alt="[^"]*"/gi,'').replace(/^<img\b/,`<img alt="${escape(alts[key])}"`);
  });
- const defaultShare={shareImage:'share-default-placeholder.png',shareAlt:'Satyarth Mishra portfolio card with cream paper, vermilion accents and a chip sketch'};
+ const defaultShare={shareImage:'share-default-placeholder.png',shareAlt:'foxDev portfolio card with cream paper, vermilion accents and a chip sketch'};
  const projectShares={
   'agri-sarthi':{shareImage:'share-agri-sarthi.png',shareAlt:'Agri Sarthi share card with the crop-care interface, trees and a plant-health card'},
   'suraksha-one':{shareImage:'share-suraksha-one.png',shareAlt:'Suraksha One share card with an exploded helmet showing circuit boards, sensors and wiring'}
@@ -41,7 +41,7 @@ export async function buildSEO(out,projects,profile,origin){
   {url:'/about',name:'About Me',description:'Meet Satyarth Mishra, a Computer Science and AI student in Greater Noida exploring engineering, visual design and creative collaboration.'},
   privacyPage
  ];
- const pages=[...main,...projects.map(p=>({url:`/projects/${p.id}/`,name:p.name,description:p.summary,...projectShares[p.id]}))].map(p=>({...defaultShare,...p,title:`${p.name} | ${profile.name}`,canonical:origin+p.url}));
+ const pages=[...main,...projects.map(p=>({url:`/projects/${p.id}/`,name:p.name,description:p.summary,...projectShares[p.id]}))].map(p=>({...defaultShare,...p,title:`${p.name} | ${profile.siteName}`,canonical:origin+p.url}));
  const nav='<nav aria-label="Site pages"><a href="/">Homepage</a><a href="/work">Projects & experiments</a><a href="/about">About Satyarth</a><a href="/privacy">Privacy policy</a><button type="button" data-cookie-settings>Cookie settings</button></nav>';
  for(const page of pages){
   const file=path.join(out,page.url,'index.html');
@@ -54,12 +54,12 @@ export async function buildSEO(out,projects,profile,origin){
  }
  const home=await fs.readFile(path.join(out,'index.html'),'utf8');
  const fonts=[...home.matchAll(/@font-face\s*\{[^}]+\}/g)].map(m=>m[0]).join('\n');
- const errorPage={...defaultShare,url:'/404.html',title:`Page Not Found | ${profile.name}`,description:'This page could not be found. Return to the homepage or explore Satyarth Mishra’s work and background.'};
- await fs.writeFile(path.join(out,'404.html'),`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page Not Found | ${escape(profile.name)}</title><meta name="description" content="This page could not be found. Return to the homepage or explore Satyarth Mishra’s work and background."><meta name="robots" content="noindex,follow"><style>${fonts}</style><link rel="stylesheet" href="/personal/personal.css"></head><body class="sm-not-found"><main><span class="sm-kicker">404 / A loose page</span><h1>This page wandered<br>out of the notebook.</h1><p>The link may be outdated, or the address may have a typo. Let’s get you back to something worth exploring.</p><a class="sm-home-button" href="/">Back to the homepage ↗</a>${nav}<span class="sm-error-signature">Satyarth</span></main></body></html>`);
+ const errorPage={...defaultShare,url:'/404.html',title:`Page Not Found | ${profile.siteName}`,description:'This page could not be found. Return to the homepage or explore Satyarth Mishra’s work and background.'};
+ await fs.writeFile(path.join(out,'404.html'),`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page Not Found | ${escape(profile.siteName)}</title><meta name="description" content="This page could not be found. Return to the homepage or explore Satyarth Mishra’s work and background."><meta name="robots" content="noindex,follow"><style>${fonts}</style><link rel="stylesheet" href="/personal/personal.css"></head><body class="sm-not-found"><main><span class="sm-kicker">404 / A loose page</span><h1>This page wandered<br>out of the notebook.</h1><p>The link may be outdated, or the address may have a typo. Let’s get you back to something worth exploring.</p><a class="sm-home-button" href="/">Back to the homepage ↗</a>${nav}<span class="sm-error-signature">${escape(profile.siteName)}</span></main></body></html>`);
  const errorFile=path.join(out,'404.html');
  await fs.writeFile(errorFile,(await fs.readFile(errorFile,'utf8')).replace('</head>',shareTags(errorPage,origin)+'</head>'));
  await fs.writeFile(errorFile,(await fs.readFile(errorFile,'utf8')).replace('</body>',`<footer class="sm-site-index">${nav}</footer>${consentMarkup(gaId)}</body>`));
- const thanks={...defaultShare,...thankYouPage,title:`${thankYouPage.name} | ${profile.name}`};
+ const thanks={...defaultShare,...thankYouPage,title:`${thankYouPage.name} | ${profile.siteName}`};
  const thanksFile=path.join(out,'thank-you/index.html');
  await fs.writeFile(thanksFile,(await fs.readFile(thanksFile,'utf8')).replace('</head>',shareTags(thanks,origin)+`<link rel="canonical" href="${escape(origin+thanks.url)}"></head>`).replace('</body>',`<footer class="sm-site-index">${nav}</footer>${consentMarkup(gaId)}</body>`));
  await fs.writeFile(path.join(out,'personal/image-alts.json'),JSON.stringify(alts,null,2));
