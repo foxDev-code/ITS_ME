@@ -18,7 +18,7 @@ foxDev is Satyarth Mishra’s interactive portfolio exploring AI engineering, th
 - Work: an interactive gallery, graphic experiments and Side Quests notebook.
 - About: background, interests, approach and frequently asked questions.
 - Seven project stories: implementation context, contributions and honest scope notes.
-- Privacy, custom 404 and noindex thank-you pages.
+- Privacy, website terms, custom 404 and noindex thank-you pages.
 
 Featured work includes Agri Sarthi, Suraksha One and Nexus AI Ops. More projects: [foxDev-code on GitHub](https://github.com/foxDev-code).
 
@@ -51,6 +51,8 @@ After redeploying, run the read-only deployment checks from the repository root:
 node scripts/verify-live-seo.mjs
 node scripts/verify-live-https.mjs https://foxdev-portfolio.vercel.app
 ```
+
+The [expanded launch audit](content/EXPANDED-LAUNCH-AUDIT.md) covers both screenshot checklists, the measured PageSpeed baseline, image compression, contrast, credentials, site-name markup, favicons, redirects and the remaining Search Console/Bing account steps. Run `npm run test:launch` for local safeguards or `node scripts/verify-launch.mjs --external` to check external destinations too.
 
 These checks do not prove GA4 receipt or an actual messaging-app preview. Accept analytics on the live website and inspect GA4 Realtime; paste the URL into an unsent WhatsApp or LinkedIn draft to inspect its share card.
 

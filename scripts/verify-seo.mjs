@@ -105,6 +105,9 @@ try{
  }
  for(const p of pages)assert(incoming.has(p.url),'Orphan page: '+p.url);
  for(const route of ['/sitemap.xml','/robots.txt'])assert.equal((await fetch(base+route)).status,200);
+ const verificationFile='google02cefb3da2b660c7.html',verification=await fetch(base+'/'+verificationFile,{redirect:'manual'});
+ assert.equal(verification.status,200);assert.equal(await verification.text(),await fs.readFile('content/'+verificationFile,'utf8'));assert.equal((await fs.readFile('content/'+verificationFile,'utf8')).trim(),'google-site-verification: '+verificationFile);assert.equal((await fetch(base+'/'+verificationFile,{method:'HEAD',redirect:'manual'})).status,200);assert(!xml.includes(verificationFile),'Ownership verification is not a portfolio page');
+ console.log(`PASS Search Console file: GET/HEAD /${verificationFile} -> HTTP 200; unchanged content; excluded from sitemap.`);
  const thanks=await fetch(base+'/thank-you');assert.equal(thanks.status,200);const thanksHTML=await thanks.text();assert(thanksHTML.includes('name="robots" content="noindex,follow"'));assert(thanks.headers.get('x-robots-tag').includes('noindex'));assert(!xml.includes('/thank-you'));await checkShare(thanksHTML,{url:'/thank-you'});
  checkResources(thanksHTML);
  assert(thanksHTML.includes('does not confirm that a message was sent or received'),'No false receipt confirmation');

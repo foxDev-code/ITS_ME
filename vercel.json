@@ -3,5 +3,16 @@
   "framework": null,
   "buildCommand": "npm run build:production",
   "installCommand": "node --version",
-  "outputDirectory": "outputs/satyarth-portfolio"
+  "outputDirectory": "outputs/satyarth-portfolio",
+  "redirects": [
+    {"source":"/case-studies/heygo-creator/:path*","destination":"/projects/agri-sarthi/","permanent":true},
+    {"source":"/case-studies/pulse-event/:path*","destination":"/projects/suraksha-one/","permanent":true},
+    {"source":"/case-studies/balwin-fibre/:path*","destination":"/projects/metromaarg/","permanent":true},
+    {"source":"/case-studies/resqued/:path*","destination":"/projects/veena-rover/","permanent":true}
+  ],
+  "headers": [
+    {"source":"/(.*)","headers":[{"key":"X-Content-Type-Options","value":"nosniff"},{"key":"Referrer-Policy","value":"strict-origin-when-cross-origin"}]},
+    {"source":"/thank-you","headers":[{"key":"X-Robots-Tag","value":"noindex, follow"}]},
+    {"source":"/review/:path*","headers":[{"key":"X-Robots-Tag","value":"noindex, follow"}]}
+  ]
 }

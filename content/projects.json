@@ -28,7 +28,7 @@
     "featured":true
   },
   {
-    "id":"metromaarg","name":"MetroMaarg","eyebrow":"Mobility · full-stack product prototype","status":"Hackathon project","repo":"https://github.com/foxDev-code/metromaarg-hackwithup","demo":"https://metromaarg-hackwithup.vercel.app/","image":"metro-cover.svg","secondaryImage":"metro-flow.svg","color":"#9dc5d8",
+    "id":"metromaarg","name":"MetroMaarg","eyebrow":"Mobility · full-stack product prototype","status":"Hackathon project","repo":"https://github.com/foxDev-code/metromaarg-hackwithup","demo":null,"image":"metro-cover.svg","secondaryImage":"metro-flow.svg","color":"#9dc5d8",
     "summary":"A metro travel prototype bringing route planning, ticket journeys and operational dashboards into one experience.",
     "challenge":"A journey crosses several decisions: which route to take, what the fare means and where the ticket lives. Those steps need a consistent interface.",
     "approach":"The repository combines React and TypeScript views with Supabase-backed services. Passenger flows cover routes and tickets, while administrator pages explore train status, analytics and QR generation.",

@@ -6,7 +6,7 @@ const profile=JSON.parse(await fs.readFile('content/profile.json','utf8'));
 const origin=siteOrigin(process.argv[2]??profile.siteUrl,true);
 const transport=process.argv[3]?siteOrigin(process.argv[3]):origin;
 const pages=JSON.parse(await fs.readFile('outputs/satyarth-portfolio/personal/pages.json','utf8'));
-const alts=JSON.parse(await fs.readFile('content/image-alts.json','utf8'));
+const alts=JSON.parse(await fs.readFile('outputs/satyarth-portfolio/personal/image-alts.json','utf8'));
 const problems=[],records=[],links=new Set(),incoming=new Set(),shareImages=new Set();
 const decode=s=>s.replaceAll('&amp;','&').replaceAll('&quot;','"').replaceAll('&#x27;',"'").replaceAll('&lt;','<').replaceAll('&gt;','>');
 const attr=(tag,name)=>decode(tag.match(new RegExp('\\b'+name+'="([^"]*)"','i'))?.[1]??'');
@@ -17,16 +17,22 @@ let imageCount=0;
 for(const page of [...pages,{url:'/thank-you'}]){
  const response=await get(origin+page.url),html=await response.text();
  check(response.status===200,page.url+': HTTP '+response.status);
+ check(response.headers.get('x-content-type-options')==='nosniff',page.url+': missing nosniff header');
+ check(response.headers.get('referrer-policy')==='strict-origin-when-cross-origin',page.url+': unexpected referrer policy');
  const tags=new Map();
  for(const tag of html.match(/<meta\b[^>]*>/gi)??[]){const key=attr(tag,'name')||attr(tag,'property');check(!tags.has(key),page.url+': duplicate '+key);tags.set(key,attr(tag,'content'));}
  const title=decode(html.match(/<title>([^<]*)<\/title>/i)?.[1]??'');
  records.push({path:page.url,status:response.status,title,description:tags.get('description')});
  check(title.endsWith(' | '+profile.siteName),page.url+': outdated or missing site title');
  if(page.title){check(title===page.title,page.url+': title differs from current build');check(tags.get('description')===page.description,page.url+': description differs from current build');}
+ if(page.title)check(!tags.get('robots')?.includes('noindex')&&!response.headers.get('x-robots-tag')?.includes('noindex'),page.url+': public page must remain indexable');
  const canonical=(html.match(/<link\b[^>]*>/gi)??[]).find(t=>attr(t,'rel')==='canonical');
  check(canonical&&attr(canonical,'href')===origin+page.url,page.url+': incorrect canonical URL');
  for(const key of ['og:title','og:description','og:type','og:url','og:image','twitter:card','twitter:title','twitter:description','twitter:image'])check(tags.get(key),page.url+': missing '+key);
  check(tags.get('og:url')===origin+page.url,page.url+': incorrect og:url');
+ check(tags.get('og:site_name')===profile.siteName,page.url+': missing site name');
+ for(const icon of ['favicon.svg','favicon-48.png','apple-touch-icon.png'])check(html.includes('href="/personal/assets/'+icon+'"'),page.url+': missing '+icon);
+ if(page.url==='/'){const data=[...html.matchAll(/type="application\/ld\+json"[^>]*>([^<]+)</g)].map(m=>JSON.parse(m[1]));check(data.some(d=>d['@type']==='WebSite'&&d.name===profile.siteName&&d.url===origin+'/'),'/ : missing WebSite structured data');}
  check(tags.get('og:title')===title&&tags.get('twitter:title')===title,page.url+': inconsistent share titles');
  check(tags.get('twitter:card')==='summary_large_image',page.url+': incorrect Twitter card');
  check(tags.get('og:image')===tags.get('twitter:image'),page.url+': inconsistent share images');
@@ -54,6 +60,9 @@ check(new Set(records.map(r=>r.description)).size===records.length,'Descriptions
 for(const page of pages)check(incoming.has(page.url),'Orphan page: '+page.url);
 for(const url of links){const response=await request(url,{method:'HEAD'});check(response.status===200,'Broken internal link: '+url+' HTTP '+response.status);}
 for(const url of shareImages){const response=await get(url),bytes=Buffer.from(await response.arrayBuffer());check(response.status===200&&bytes.length>=24&&bytes.subarray(1,4).toString()==='PNG'&&bytes.readUInt32BE(16)===1200&&bytes.readUInt32BE(20)===630,'Share card must be a reachable 1200 × 630 PNG: '+url);}
+for(const [icon,size] of [['favicon-48.png',48],['apple-touch-icon.png',180]]){const response=await get(origin+'/personal/assets/'+icon),bytes=Buffer.from(await response.arrayBuffer());check(response.status===200&&bytes.length>=24&&bytes.readUInt32BE(16)===size&&bytes.readUInt32BE(20)===size,'Incorrect favicon dimensions: '+icon);}
+const deployment=JSON.parse(await fs.readFile('vercel.json'));
+for(const rule of deployment.redirects){const route=rule.source.replace('/:path*',''),response=await request(origin+route,{redirect:'manual'});check([301,308].includes(response.status)&&new URL(response.headers.get('location')??'/',origin).pathname===rule.destination,'Legacy redirect missing: '+route);}
 const sitemapResponse=await get(origin+'/sitemap.xml'),xml=await sitemapResponse.text();
 check(sitemapResponse.status===200,'Sitemap is unreachable');
 const locations=[...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>decode(m[1]));

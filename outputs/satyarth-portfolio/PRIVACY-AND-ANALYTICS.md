@@ -2,7 +2,7 @@
 
 ## Current configuration — 12 October 2026
 
-The owner supplied `https://foxdev-portfolio.vercel.app` and `G-S475283TKN`. Both are saved as public build defaults in `content/profile.json`. Environment variables `SITE_URL` and `GA_MEASUREMENT_ID` take precedence; remove stale localhost or placeholder values in Vercel. The new production output enables consent-gated GA4 and identifies Vercel in the privacy template. The live site inspected during this audit still had null analytics configuration and requires redeployment. GA4 Realtime receipt and account settings remain unverified. This section supersedes the historical pre-deployment status below; see `LAUNCH-CHECKLIST.md` for current evidence.
+The owner supplied `https://foxdev-portfolio.vercel.app` and `G-S475283TKN`. Both are saved as public build defaults in `content/profile.json`. Environment variables `SITE_URL` and `GA_MEASUREMENT_ID` take precedence; remove stale localhost or placeholder values in Vercel. Deployment `110f79f` passed live configuration checks. A live browser test observed no Google tag before consent or after rejection, one tag with the correct ID after acceptance, and no tag after withdrawal/reload. GA4 Realtime receipt and account settings remain unverified. Vercel is identified in the privacy template. This section supersedes the historical pre-deployment status below; see `EXPANDED-LAUNCH-AUDIT.md` for newer local changes awaiting deployment.
 
 ## Inventory presented before website edits
 

@@ -1,8 +1,12 @@
 # foxDev — Satyarth’s portfolio
 
+`google02cefb3da2b660c7.html` is Google's supplied Search Console ownership file. The build copies it unchanged to the deployed root. After deployment, confirm `https://foxdev-portfolio.vercel.app/google02cefb3da2b660c7.html` returns the verification text, then click Verify under HTML file upload in Search Console. Keep this file permanently; it is not a portfolio page and is excluded from the sitemap.
+
 Privacy and optional analytics setup are documented in `PRIVACY-AND-ANALYTICS.md`. Contact remains email-only. `profile.json` now stores the public site URL and real GA4 ID `G-S475283TKN`. The build uses those defaults; `SITE_URL` and `GA_MEASUREMENT_ID` environment variables can override them. An empty GA ID or `G-XXXXXXXXXX` explicitly disables tracking. Review the `/privacy` template before launch. `/thank-you` is noindex and is not an email delivery receipt.
 
-Edit `about-extras.json` for the About FAQ and empty testimonial slot identifiers. See `HTTPS-FAQ-REVIEWS.md` for answer evidence, claims awaiting confirmation and exact-review handling. See `LAUNCH-CHECKLIST.md` for the latest local versus deployed verification results. Root `vercel.json` pins the production build and output folder.
+Edit `about-extras.json` for the About FAQ and empty testimonial slot identifiers. See `HTTPS-FAQ-REVIEWS.md` for answer evidence, claims awaiting confirmation and exact-review handling. See `EXPANDED-LAUNCH-AUDIT.md` for the latest local versus deployed verification results and Search Console/Bing instructions. Root `vercel.json` pins the production build/output, legacy redirects and basic response headers. `/terms` remains a clearly marked owner-review template.
+
+`media-variants.json` maps original images to smaller, checked-in WebP copies. Keep both source assets in `work/personalization/assets` and generated assets when committing. `npm run test:launch` checks extra launch safeguards, while `node scripts/verify-launch.mjs --external` reports external link status. Image optimization is an optional authoring step; deployment needs no image-processing dependency.
 
 Edit `profile.json` for the bio, contact links, location, skills and GitHub call-to-action. Edit `projects.json` for the seven case studies. `replacements.json` maps the reference page's text to personalized content.
 

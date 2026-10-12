@@ -9,6 +9,8 @@ const profile=JSON.parse(await fs.readFile('content/profile.json','utf8'));
 const origin=siteOrigin(process.env.SITE_URL??profile.siteUrl,process.argv.includes('--production'));
 const projects=JSON.parse(await fs.readFile('content/projects.json','utf8'));
 const replacements=JSON.parse(await fs.readFile('content/replacements.json','utf8'));
+const mediaVariants=JSON.parse(await fs.readFile('content/media-variants.json','utf8'));
+const optimizeMedia=value=>Object.entries(mediaVariants).reduce((text,[from,to])=>text.replaceAll(from,to),value);
 for(const key of ['Jackie Zhang','Jackie','JACKIE','jackie'])replacements[key]=profile.siteName;
 const escapeRegExp=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 const htmlEscape=s=>s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
@@ -33,6 +35,7 @@ const links={
  'https://jackiezhangdesign.medium.com/designs-with-context-better-collaboration-e8bac4fd860c':profile.github
 };
 await fs.mkdir(out,{recursive:true});
+await fs.copyFile('content/google02cefb3da2b660c7.html',path.join(out,'google02cefb3da2b660c7.html'));
 await fs.cp(path.join(source,'vendor'),path.join(out,'vendor'),{recursive:true});
 await fs.mkdir(path.join(out,'personal/assets'),{recursive:true});
 await fs.cp('work/personalization/assets',path.join(out,'personal/assets'),{recursive:true});
@@ -60,7 +63,8 @@ const imagePairs={
  'HUqtxwLIEIp2z66d1Rbksv2PbbY.png':'resume-cover.svg','Isusj1Nh2i04aFkiuiBVhYCfec.png':'qa-cover.svg'
 };
 Object.assign(assetMap,imagePairs);
-function localizeAssets(value){return value.replace(/\/vendor\/framerusercontent\.com\/images\/([A-Za-z0-9_-]+\.(?:png|jpe?g|gif|webp))(?:\?[^\s"'`<>)]*)?/g,(whole,name)=>assetMap[name]?'/personal/assets/'+assetMap[name]:whole);}
+Object.assign(assetMap,mediaVariants);
+function localizeAssets(value){return optimizeMedia(value.replace(/\/vendor\/framerusercontent\.com\/images\/([A-Za-z0-9_-]+\.(?:png|jpe?g|gif|webp))(?:\?[^\s"'`<>)]*)?/g,(whole,name)=>assetMap[name]?'/personal/assets/'+assetMap[name]:whole));}
 function replaceValue(value){
  if(value.startsWith("Hey there, I'm Jackie,"))return profile.intro;
  if(value==='@jackielszhang')return '@'+new URL(profile.github).pathname.split('/').filter(Boolean).at(-1);
@@ -97,6 +101,9 @@ for(const rel of ['index.html','work/index.html','about/index.html']){
  html=html.replace(/<!--SM_RAW_(\d+)-->/g,(_,index)=>rawBlocks[Number(index)]);
  for(const [from,to] of Object.entries(links))html=html.replaceAll(from,to.replaceAll('&','&amp;'));
  html=localizeAssets(html).replaceAll('Jackie Zhang',profile.name).replaceAll('aria-label="Product Designer"','aria-label="'+profile.role+'"');
+ html=html.replace('<div id="main"','<div role="main" id="main"');
+ // Lighthouse identified this notebook illustration as the mobile LCP image.
+ html=html.replace(/<img\b[^>]*>/g,tag=>tag.includes('zreYWHKtYVvdYwuZm8gBYAa3IiA')?tag.replace(/\s+loading="[^"]*"/g,'').replace('<img ','<img loading="eager" fetchpriority="high" '):tag);
  html=html.replace(/<meta\s+(?:name|property)="(?:description|og:title|og:description|og:image|og:url|twitter:title|twitter:description|twitter:image)"[^>]*>/g,'').replace(/<link[^>]+rel="(?:canonical|icon|apple-touch-icon)"[^>]*>/g,'');
  html=html.replace('</head>',`<meta name="description" content="${htmlEscape(profile.intro)}"><meta property="og:title" content="${profile.name} — AI, design & code"><meta property="og:description" content="${htmlEscape(profile.intro)}"><meta property="og:image" content="/personal/assets/social-card.svg"><link rel="icon" href="/personal/assets/favicon.svg"><link rel="stylesheet" href="/personal/personal.css"><script type="module" src="/personal/personal.js"></script></head>`);
  const page=rel==='index.html'?'/':rel.split('/')[0];
@@ -105,9 +112,9 @@ for(const rel of ['index.html','work/index.html','about/index.html']){
 }
 await fs.writeFile(path.join(out,'personal/profile.json'),JSON.stringify(profile,null,2));
 await fs.writeFile(path.join(out,'personal/projects.json'),JSON.stringify(projects,null,2));
-await fs.copyFile('src/personal/personal.css',path.join(out,'personal/personal.css'));
-await fs.copyFile('src/personal/personal.js',path.join(out,'personal/personal.js'));
-await buildCasePages(out,projects,profile);
+await fs.writeFile(path.join(out,'personal/personal.css'),optimizeMedia(await fs.readFile('src/personal/personal.css','utf8')));
+await fs.writeFile(path.join(out,'personal/personal.js'),optimizeMedia(await fs.readFile('src/personal/personal.js','utf8')));
+await buildCasePages(out,projects.map(p=>({...p,image:mediaVariants[p.image]??p.image,secondaryImage:mediaVariants[p.secondaryImage]??p.secondaryImage})),profile);
 const pages=await buildSEO(out,projects,profile,origin);
 // Rebuild inherited search data from current public pages, not the reference identity.
 const searchIndex=Object.fromEntries(pages.map(page=>[page.url,{version:1,title:page.title,description:page.description,keywords:'',h1:[page.name],h2:[],h3:[],h4:[],h5:[],h6:[],p:[page.description],codeblock:[],url:page.url}]));

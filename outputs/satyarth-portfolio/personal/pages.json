@@ -36,6 +36,15 @@
     "canonical": "https://foxdev-portfolio.vercel.app/privacy"
   },
   {
+    "shareImage": "share-default-placeholder.png",
+    "shareAlt": "foxDev portfolio card with cream paper, vermilion accents and a chip sketch",
+    "url": "/terms",
+    "name": "Website Terms",
+    "description": "Notes on using foxDev, project scope, third-party credits and contacting Satyarth Mishra. A terms template for owner review.",
+    "title": "Website Terms | foxDev",
+    "canonical": "https://foxdev-portfolio.vercel.app/terms"
+  },
+  {
     "shareImage": "share-agri-sarthi.png",
     "shareAlt": "Agri Sarthi share card with the crop-care interface, trees and a plant-health card",
     "url": "/projects/agri-sarthi/",

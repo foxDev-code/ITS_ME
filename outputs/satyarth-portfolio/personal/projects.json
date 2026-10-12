@@ -81,7 +81,7 @@
     "eyebrow": "Mobility · full-stack product prototype",
     "status": "Hackathon project",
     "repo": "https://github.com/foxDev-code/metromaarg-hackwithup",
-    "demo": "https://metromaarg-hackwithup.vercel.app/",
+    "demo": null,
     "image": "metro-cover.svg",
     "secondaryImage": "metro-flow.svg",
     "color": "#9dc5d8",

@@ -1,5 +1,7 @@
 # Four-round launch verification — current audit
 
+**Follow-up:** deployment `110f79f` subsequently passed the live SEO/share and HTTPS checks, including real GA4 configuration and production URL metadata. The earlier localhost findings below are historical, not the current live state. See [Expanded launch audit](EXPANDED-LAUNCH-AUDIT.md) for the newer screenshot checklist, local improvements awaiting deployment, account steps and measured performance limitations.
+
 Verified on 12 October 2026 against `https://foxdev-portfolio.vercel.app` and the local production build. Plans were presented before each round. This report distinguishes tested local fixes from the currently deployed version.
 
 **Verdict: redeploy the corrected build before promoting the site.** The live site still uses localhost canonical, sitemap and share-image URLs, has null GA4 configuration, and predates the foxDev branding commit. These are repeated configuration failures across pages, not 73 independent design bugs. Local fixes now use the supplied public domain and real Measurement ID. Satyarth Mishra remains the personal identity.

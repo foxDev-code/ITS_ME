@@ -227,3 +227,18 @@ html[data-personal-case] body{margin:0;background:#242424;color:var(--sm-paper)}
 .framer-ZE0X0 [data-framer-name="signature"]::after{font-size:35px;justify-content:center;letter-spacing:-1.5px}
 .framer-gsuqlf> [data-framer-background-image-wrapper]{overflow:hidden}
 img[src*="satyarth-cutout.png"]{object-fit:contain!important;object-position:center bottom!important}
+/* Keep vermilion artwork unchanged; use readable text tones on each paper/ink surface. */
+:root{--sm-text-on-dark:#f87562;--sm-text-on-paper:#a72f24}
+.sm-kicker,.sm-index-number,.sm-case-nav .sm-wordmark{color:var(--sm-text-on-dark)}
+.sm-link--red{color:var(--sm-text-on-dark)!important}
+.sm-case-header .sm-kicker,.sm-note .sm-kicker,.sm-note h3,.sm-not-found .sm-kicker{color:var(--sm-text-on-paper)}
+.framer-text{--token-9d6e4be8-f5be-4ce8-81f8-c572021c0846:var(--sm-text-on-dark)}
+.framer-text[style*="rgb(227, 83, 66)"]{color:var(--sm-text-on-dark)!important;--framer-text-color:var(--sm-text-on-dark)!important}
+:is([data-framer-name="Paper"],[data-framer-name$="Paper Page"],[data-framer-name="Spiral note"],.framer-cc0928) .framer-text{--token-9d6e4be8-f5be-4ce8-81f8-c572021c0846:var(--sm-text-on-paper)}
+:is([data-framer-name="Paper"],[data-framer-name$="Paper Page"],[data-framer-name="Spiral note"],.framer-cc0928) .framer-text[style*="rgb(227, 83, 66)"]{color:var(--sm-text-on-paper)!important;--framer-text-color:var(--sm-text-on-paper)!important}
+.framer-f3lfa9::after{color:var(--sm-text-on-paper)}
+.framer-1astofc .framer-text{color:#171717!important;--framer-text-color:#171717!important}
+[data-sm-connect]{min-width:24px;min-height:24px;cursor:pointer}
+[data-sm-connect]:focus-visible{outline:3px solid var(--sm-paper);outline-offset:6px;border-radius:3px}
+.sm-site-index :is(a,button){min-height:24px;display:inline-flex;align-items:center}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}}

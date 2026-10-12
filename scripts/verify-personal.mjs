@@ -84,7 +84,8 @@ for(const project of projects.filter(p=>p.featured)){
 assert(styles.includes('.framer-ezdzs4 .framer-text{font-size:35px!important}'),'Long rotating words must fit the mobile notebook');
 assert(!styles.includes('[data-framer-name="Side hustles"]{display:none'),'Keep the Side Quests notebook visible');
 assert(!styles.includes('[data-framer-name="Left Frame"],html[data-sm-page="/"] [data-framer-name="Right Frame"]{visibility:hidden'),'Keep illustrated side strips visible');
-assert(enhancements.includes('fox-seal.png')&&enhancements.includes("'QA Matrix':'/projects/qa-matrix/'"),'Decorate and correctly link Side Quests');
+const mediaVariants=JSON.parse(await fs.readFile('content/media-variants.json'));
+assert(enhancements.includes(mediaVariants['fox-seal.png']??'fox-seal.png')&&enhancements.includes("'QA Matrix':'/projects/qa-matrix/'"),'Decorate and correctly link Side Quests');
 await fs.access(path.join(root,'personal/assets/fox-seal.png'));
 assert.equal(profile.intro,'I turn ideas into intelligent products—connecting machine learning, thoughtful interfaces and visual storytelling.','Opening introduction must stay unchanged');
 // Regression: the stacked value cards require opaque paper, not icon-only SVGs.
@@ -102,7 +103,7 @@ for(const file of files.filter(file=>file.endsWith('.mjs')||/^searchIndex-.*\.js
  if(/^searchIndex-/.test(path.basename(file))){const index=JSON.parse(text);assert.deepEqual(Object.keys(index).sort(),publicPages.map(page=>page.url).sort(),'Search index must contain only current public pages');for(const page of publicPages)assert.equal(index[page.url].description,page.description);}
 }
 assert(!/jackie|jackielszhang/i.test(await fs.readFile('README.md','utf8')),'Main project README must use the portfolio identity');
-assert(home.includes('/personal/assets/satyarth-cutout.png')&&!home.includes('/personal/assets/monogram.svg'),'Polaroid must use the portrait cutout');
+assert(home.includes('/personal/assets/'+(mediaVariants['satyarth-cutout.png']??'satyarth-cutout.png'))&&!home.includes('/personal/assets/monogram.svg'),'Polaroid must use the portrait cutout');
 assert(!styles.includes('[data-framer-name="Fundam"]{display:none'),'Keep the independent draggable mask visible');
 assert(!styles.includes('[data-framer-name="About me section"]{z-index:6'),'Preserve the native collage/card stacking');
 const photoModule=await fs.readFile(files.find(file=>file.endsWith('n3aQpPOIiQ-Bry_zZoNC9Hg-cxP44K3mHfgGkcALR5o.BR2SGY8g.mjs')),'utf8');

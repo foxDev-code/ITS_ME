@@ -6,6 +6,7 @@
 | /work | Projects & Experiments \| foxDev | Explore projects in crop awareness, safety interfaces, mobility and AI workflows, alongside smaller technical and creative experiments. |
 | /about | About Me \| foxDev | Meet Satyarth Mishra, a Computer Science and AI student in Greater Noida exploring engineering, visual design and creative collaboration. |
 | /privacy | Privacy Policy \| foxDev | How Satyarth Mishra’s portfolio handles email contact, optional analytics, browser storage and external services. A privacy template for owner review. |
+| /terms | Website Terms \| foxDev | Notes on using foxDev, project scope, third-party credits and contacting Satyarth Mishra. A terms template for owner review. |
 | /projects/agri-sarthi/ | Agri Sarthi \| foxDev | An interactive crop-awareness experience that helps make early observation and field scouting easier to understand. |
 | /projects/suraksha-one/ | Suraksha One \| foxDev | A smart-helmet concept and supervisor interface exploring clearer safety signals, worker status and emergency response. |
 | /projects/metromaarg/ | MetroMaarg \| foxDev | A metro travel prototype bringing route planning, ticket journeys and operational dashboards into one experience. |

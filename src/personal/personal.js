@@ -62,6 +62,14 @@ let pending=false,lastPage='';
 function enhance(){pending=false;const page=location.pathname.replace(/\/$/,'')||'/';if(!['/','/work','/about'].includes(page))return;
  const main=document.getElementById('main');const root=main?.querySelector(':scope > div[class*="framer-"]');if(!root)return;
  if(document.documentElement.dataset.smPage!==page)document.documentElement.dataset.smPage=page;
+ for(const link of root.querySelectorAll('a[data-framer-name="Face"]')){if(!link.hasAttribute('aria-label'))link.setAttribute('aria-label','foxDev homepage');if(link.getAttribute('href')!=='/')link.setAttribute('href','/');}
+ for(const item of root.querySelectorAll('ul:has(>.ticker-item)'))if(item.hasAttribute('role'))item.removeAttribute('role');
+ // Reuse Framer's existing contact-panel click behavior; add the missing keyboard equivalent.
+ for(const item of root.querySelectorAll('[data-framer-name="Connect"]'))if(!item.querySelector('[data-framer-name="Connect"]')&&!item.closest('[data-sm-connect]')&&!item.closest('a,button')){
+  item.dataset.smConnect='true';item.setAttribute('role','button');item.setAttribute('tabindex','0');item.setAttribute('aria-label','Open contact options');
+  item.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();item.click();}});
+ }
+ for(const link of root.querySelectorAll('a[href^="mailto:"]'))if(!link.hasAttribute('aria-label'))link.setAttribute('aria-label','Email Satyarth about AI, products or creative collaboration');
  if(lastPage!==page){document.getElementById('satyarth-details')?.remove();document.getElementById('satyarth-contact-links')?.remove();lastPage=page;}
  if(!document.getElementById('satyarth-details')){const section=makeSection();const anchor=page==='/'?root.querySelector(':scope > [data-framer-name="Footer"]'):page==='/work'?root.querySelector(':scope > [data-framer-name="Foot"]'):null;root.insertBefore(section,anchor);}
  let collageIndex=0;
@@ -102,7 +110,7 @@ function enhance(){pending=false;const page=location.pathname.replace(/\/$/,'')|
  }
  applyImageAlts();
  for(const signature of document.querySelectorAll('[data-framer-name="signature"]')){if(signature.getAttribute('aria-label')!==profile.name){signature.setAttribute('aria-label',profile.name);signature.setAttribute('role','img');}}
- for(const role of document.querySelectorAll('.framer-f3lfa9'))if(role.getAttribute('aria-label')!==profile.role)role.setAttribute('aria-label',profile.role);
+ for(const role of document.querySelectorAll('.framer-f3lfa9')){if(role.getAttribute('aria-label')!==profile.role)role.setAttribute('aria-label',profile.role);if(role.getAttribute('role')!=='img')role.setAttribute('role','img');}
  // The reference's About label was decorative. Preserve its hover component and make it navigable.
  for(const item of document.querySelectorAll('[data-framer-name="About"]')){if(item.closest('[data-sm-link]')||item.closest('a')||item.tagName==='A')continue;const value=item.textContent.trim().toLowerCase();if(value==='about'||value==='satyarth'||value===profile.siteName.toLowerCase()){item.dataset.smLink='true';item.setAttribute('role','link');item.setAttribute('tabindex','0');item.setAttribute('aria-label','About Satyarth Mishra');item.style.cursor='pointer';item.addEventListener('click',()=>location.assign('/about'));item.addEventListener('keydown',ev=>{if(ev.key==='Enter')location.assign('/about')});}}
  // Decorative repeated rails are not separate content for assistive technology.

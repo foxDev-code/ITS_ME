@@ -37,7 +37,7 @@ const gallerySlots={'agri-cover.svg':0,'agri-flow.svg':2,'suraksha-cover.svg':4,
 // Three distinct compositions per chapter; the cutting mat remains the complete index.
 const floatingSlots={'agri-cover.svg':0,'agri-flow.svg':2,'suraksha-flow.svg':1,'metro-cover.svg':3,'metro-flow.svg':5,'nexus-flow.svg':7,'helmet-card.svg':4,'qa-cover.svg':8,'veena-cover.svg':6};
 const galleryRatios=['10 / 9','4 / 5','10 / 9','11 / 9','9 / 10','9 / 11','10 / 9','4 / 5','10 / 9'];
-const workPreviews={'agri-screenshot.svg':['screen-agri-notes.png','Agri Sarthi — working field notebook'],'agri-evolves-card.svg':['screen-agri-scout.png','Agri Sarthi — scouting interface'],'helmet-card.svg':['helmet-exploded.png','Suraksha One — exploded concept render'],'suraksha-cover.svg':['screen-suraksha-home.png','Suraksha One — published web interface'],'suraksha-flow.svg':['helmet-front.png','Suraksha One — helmet concept render']};
+const workPreviews={'agri-screenshot.svg':['screen-agri-notes.png','Agri Sarthi — working field notebook'],'agri-evolves-card.svg':['screen-agri-scout.png','Agri Sarthi — scouting interface'],'helmet-card.svg':['helmet-exploded.webp','Suraksha One — exploded concept render'],'suraksha-cover.svg':['screen-suraksha-home.webp','Suraksha One — published web interface'],'suraksha-flow.svg':['helmet-front.webp','Suraksha One — helmet concept render']};
 const workDestinations={'Agri Sarthi':'/projects/agri-sarthi/','Suraksha One':'/projects/suraksha-one/','METROMAARG':'/projects/metromaarg/','AI Lab':'/projects/nexus-ai-ops/'};
 const imageUrl=shot=>shot.image.startsWith('https://')?shot.image:'/personal/assets/'+shot.image;
 let viewer,viewerTrigger;
@@ -62,6 +62,14 @@ let pending=false,lastPage='';
 function enhance(){pending=false;const page=location.pathname.replace(/\/$/,'')||'/';if(!['/','/work','/about'].includes(page))return;
  const main=document.getElementById('main');const root=main?.querySelector(':scope > div[class*="framer-"]');if(!root)return;
  if(document.documentElement.dataset.smPage!==page)document.documentElement.dataset.smPage=page;
+ for(const link of root.querySelectorAll('a[data-framer-name="Face"]')){if(!link.hasAttribute('aria-label'))link.setAttribute('aria-label','foxDev homepage');if(link.getAttribute('href')!=='/')link.setAttribute('href','/');}
+ for(const item of root.querySelectorAll('ul:has(>.ticker-item)'))if(item.hasAttribute('role'))item.removeAttribute('role');
+ // Reuse Framer's existing contact-panel click behavior; add the missing keyboard equivalent.
+ for(const item of root.querySelectorAll('[data-framer-name="Connect"]'))if(!item.querySelector('[data-framer-name="Connect"]')&&!item.closest('[data-sm-connect]')&&!item.closest('a,button')){
+  item.dataset.smConnect='true';item.setAttribute('role','button');item.setAttribute('tabindex','0');item.setAttribute('aria-label','Open contact options');
+  item.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();item.click();}});
+ }
+ for(const link of root.querySelectorAll('a[href^="mailto:"]'))if(!link.hasAttribute('aria-label'))link.setAttribute('aria-label','Email Satyarth about AI, products or creative collaboration');
  if(lastPage!==page){document.getElementById('satyarth-details')?.remove();document.getElementById('satyarth-contact-links')?.remove();lastPage=page;}
  if(!document.getElementById('satyarth-details')){const section=makeSection();const anchor=page==='/'?root.querySelector(':scope > [data-framer-name="Footer"]'):page==='/work'?root.querySelector(':scope > [data-framer-name="Foot"]'):null;root.insertBefore(section,anchor);}
  let collageIndex=0;
@@ -84,7 +92,7 @@ function enhance(){pending=false;const page=location.pathname.replace(/\/$/,'')|
   for(const link of root.querySelectorAll('a')){const href=workDestinations[link.textContent.trim()];if(href){link.href=href;link.removeAttribute('target');link.classList.add('sm-work-title');}}
   for(const img of root.querySelectorAll('[data-framer-name="Top section"] img')){const key=img.dataset.smWorkPreview||img.getAttribute('src')?.split('/').pop().split('?')[0];const preview=workPreviews[key];if(!preview)continue;img.dataset.smWorkPreview=key;img.classList.add('sm-work-preview');const src='/personal/assets/'+preview[0];if(img.getAttribute('src')!==src){img.removeAttribute('srcset');img.removeAttribute('sizes');img.src=src;img.alt=preview[1];}}
   const side=root.querySelector('[data-framer-name="Side hustles"]');
-  if(side&&!side.querySelector('.sm-side-fox'))side.insertAdjacentHTML('beforeend','<figure class="sm-side-fox"><img src="/personal/assets/fox-seal.png" alt="Original vermilion fox seal with a raised paw and spark" width="880" height="1760"><figcaption>Stay curious.</figcaption></figure>');
+  if(side&&!side.querySelector('.sm-side-fox'))side.insertAdjacentHTML('beforeend','<figure class="sm-side-fox"><img src="/personal/assets/fox-seal.webp" alt="Original vermilion fox seal with a raised paw and spark" width="880" height="1760"><figcaption>Stay curious.</figcaption></figure>');
   const sideLinks={'VEENA Rover':'/projects/veena-rover/','Linear Algebra':'https://github.com/foxDev-code/Linear-Algebra','Synapse Club':'/about#community','QA Matrix':'/projects/qa-matrix/','MCQ Lab':'https://github.com/foxDev-code/Online-MCQ-Test-Platform'};
   for(const [label,href] of Object.entries(sideLinks)){const link=[...(side?.querySelectorAll('a')||[])].find(a=>a.textContent.includes(label));if(link){link.href=href;if(href.startsWith('http')){link.target='_blank';link.rel='noopener noreferrer';}else link.removeAttribute('target');}}
  }
@@ -102,7 +110,7 @@ function enhance(){pending=false;const page=location.pathname.replace(/\/$/,'')|
  }
  applyImageAlts();
  for(const signature of document.querySelectorAll('[data-framer-name="signature"]')){if(signature.getAttribute('aria-label')!==profile.name){signature.setAttribute('aria-label',profile.name);signature.setAttribute('role','img');}}
- for(const role of document.querySelectorAll('.framer-f3lfa9'))if(role.getAttribute('aria-label')!==profile.role)role.setAttribute('aria-label',profile.role);
+ for(const role of document.querySelectorAll('.framer-f3lfa9')){if(role.getAttribute('aria-label')!==profile.role)role.setAttribute('aria-label',profile.role);if(role.getAttribute('role')!=='img')role.setAttribute('role','img');}
  // The reference's About label was decorative. Preserve its hover component and make it navigable.
  for(const item of document.querySelectorAll('[data-framer-name="About"]')){if(item.closest('[data-sm-link]')||item.closest('a')||item.tagName==='A')continue;const value=item.textContent.trim().toLowerCase();if(value==='about'||value==='satyarth'||value===profile.siteName.toLowerCase()){item.dataset.smLink='true';item.setAttribute('role','link');item.setAttribute('tabindex','0');item.setAttribute('aria-label','About Satyarth Mishra');item.style.cursor='pointer';item.addEventListener('click',()=>location.assign('/about'));item.addEventListener('keydown',ev=>{if(ev.key==='Enter')location.assign('/about')});}}
  // Decorative repeated rails are not separate content for assistive technology.
