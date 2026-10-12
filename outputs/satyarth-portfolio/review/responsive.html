@@ -1,0 +1,7 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Portfolio responsive check</title>
+<style>body{margin:0;background:#151715;color:#f2e4d2;font:14px system-ui}nav{padding:12px;display:flex;gap:10px;align-items:center;position:sticky;top:0;background:#151715;z-index:2}button,a{color:inherit;background:none;border:1px solid #a99982;padding:8px 12px;cursor:pointer}main{padding:16px;overflow:auto}iframe{display:block;width:375px;height:812px;border:0;background:#242424}button[aria-pressed=true]{background:#e35342;color:#171717}</style>
+<nav aria-label="Preview width"><button data-width="375" aria-pressed="true">375px</button><button data-width="768" aria-pressed="false">768px</button><button data-width="1440" aria-pressed="false">1440px</button><a href="/">Open portfolio</a></nav>
+<main><iframe src="/" title="Responsive portfolio"></iframe></main>
+<script>for(const button of document.querySelectorAll('button'))button.addEventListener('click',()=>{document.querySelector('iframe').style.width=button.dataset.width+'px';for(const other of document.querySelectorAll('button'))other.setAttribute('aria-pressed',String(other===button));});</script>
+</html>

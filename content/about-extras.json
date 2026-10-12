@@ -1,0 +1,49 @@
+{
+  "faq": [
+    {
+      "question": "What kind of work do you do?",
+      "answer": "I explore AI engineering, digital products and visual design, including computer vision, edge AI, interfaces and graphic studies.",
+      "evidence": ["content/profile.json: bio and disciplines", "content/projects.json"],
+      "needsConfirmation": false
+    },
+    {
+      "question": "Where are you based?",
+      "answer": "Greater Noida, India. I’m studying Computer Science and Artificial Intelligence at GLA University.",
+      "evidence": ["content/profile.json: location and education"],
+      "needsConfirmation": false
+    },
+    {
+      "question": "Where can I see your code?",
+      "answer": "Most project stories link to public GitHub repositories. VEENA Rover’s source is not publicly available here.",
+      "evidence": ["content/projects.json: repo and scope fields"],
+      "needsConfirmation": false
+    },
+    {
+      "question": "Are these production-ready products?",
+      "answer": "The portfolio includes prototypes and concept demos. Each project story explains its implementation, limitations and current scope.",
+      "evidence": ["content/projects.json: status and scope fields"],
+      "needsConfirmation": false
+    },
+    {
+      "question": "Can I try the projects?",
+      "answer": "Project stories link to live demos where available, and source repositories where public.",
+      "evidence": ["content/projects.json: demo and repo fields"],
+      "needsConfirmation": false
+    },
+    {
+      "question": "How can I contact you?",
+      "answer": "Use the email link to open your email app, or connect through LinkedIn or X.",
+      "evidence": ["content/profile.json: email, linkedin and twitter", "src/personal/personal.js: contact"],
+      "needsConfirmation": false
+    }
+  ],
+  "pendingConfirmation": [
+    "Current availability for internships, freelance work or longer-term roles",
+    "Rates and any paid-service offering",
+    "A promised response time"
+  ],
+  "reviewPlaceholders": [
+    {"id": "01"},
+    {"id": "02"}
+  ]
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>http://localhost:4173/</loc></url>
+  <url><loc>http://localhost:4173/work</loc></url>
+  <url><loc>http://localhost:4173/about</loc></url>
+  <url><loc>http://localhost:4173/privacy</loc></url>
+  <url><loc>http://localhost:4173/projects/agri-sarthi/</loc></url>
+  <url><loc>http://localhost:4173/projects/suraksha-one/</loc></url>
+  <url><loc>http://localhost:4173/projects/metromaarg/</loc></url>
+  <url><loc>http://localhost:4173/projects/nexus-ai-ops/</loc></url>
+  <url><loc>http://localhost:4173/projects/resume-intelligence/</loc></url>
+  <url><loc>http://localhost:4173/projects/qa-matrix/</loc></url>
+  <url><loc>http://localhost:4173/projects/veena-rover/</loc></url>
+</urlset>

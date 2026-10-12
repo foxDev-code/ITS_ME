@@ -1,0 +1,29 @@
+node_modules/
+.npm-cache/
+work/python/
+work/pip-cache/
+work/video/
+dist/
+.graphify-venv/
+graphify-out/
+.env
+.env.*
+!.env.example
+.vercel/
+*.log
+*.pem
+*.key
+
+# Keep build inputs and the portfolio film, not research caches or downloaded repos.
+work/*
+!work/personalization/
+work/personalization/*
+!work/personalization/assets/
+!work/portfolio-teaser/
+work/portfolio-teaser/assets/
+
+# Keep both the preserved build input and deployable output; skip old archives.
+outputs/*
+!outputs/portfolio/
+!outputs/satyarth-portfolio/
+

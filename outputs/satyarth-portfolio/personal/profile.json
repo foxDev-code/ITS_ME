@@ -1,0 +1,93 @@
+{
+  "name": "Satyarth Mishra",
+  "firstName": "Satyarth",
+  "role": "AI/ML Engineer & Creative Technologist",
+  "shortRole": "AI · design · code",
+  "location": "Greater Noida, India",
+  "timezone": "IST · UTC +5:30",
+  "email": "mishrasatyarth61@gmail.com",
+  "github": "https://github.com/foxDev-code",
+  "linkedin": "https://www.linkedin.com/in/satyarth-mishra-ai/",
+  "twitter": "https://x.com/iamsatyarth_",
+  "intro": "I turn ideas into intelligent products—connecting machine learning, thoughtful interfaces and visual storytelling.",
+  "bio": "I’m a Computer Science and Artificial Intelligence student at GLA University, based in Greater Noida. My work moves between computer vision, edge AI, digital products and visual design. I like following an idea all the way through: understanding the problem, building the system, designing the interface and making it clear enough for someone else to use.",
+  "education": "B.Tech · Computer Science & Artificial Intelligence · GLA University · 2025–2029",
+  "availability": "Let’s talk AI, products and creative collaborations.",
+  "githubCta": "For more projects, visit my GitHub ↗",
+  "principles": [
+    "Follow curiosity.",
+    "Make room for play.",
+    "Build with care."
+  ],
+  "interests": [
+    {
+      "title": "Photography",
+      "description": "Travel photography, cinematic framing and the way a composition changes a story.",
+      "note": "An interest I’m exploring, not a professional photography claim."
+    },
+    {
+      "title": "Type & layout",
+      "description": "Posters, certificates and event creatives: a different way to work with hierarchy, spacing and colour.",
+      "note": "Visual work alongside engineering."
+    },
+    {
+      "title": "Community",
+      "description": "Contributing to Synapse Club’s Agentic AI Workshop through event creatives and workshop support.",
+      "note": "Learning with other people, beyond a repository."
+    }
+  ],
+  "visualReferences": [
+    {
+      "title": "Botanical texture",
+      "image": "https://images.unsplash.com/photo-1688479902193-6a9f4e1b3b03?auto=format&fit=crop&w=900&q=80",
+      "alt": "Flowers arranged on paper in soft, warm light",
+      "creator": "Annie Spratt",
+      "source": "https://unsplash.com/photos/a-bunch-of-flowers-sitting-on-top-of-a-piece-of-paper-qMf_Xdue_M4"
+    },
+    {
+      "title": "Light & geometry",
+      "image": "https://images.unsplash.com/photo-1613393627227-874453f0210e?auto=format&fit=crop&w=900&q=80",
+      "alt": "Sunlight and angular shadows across a concrete staircase",
+      "creator": "Aleksandr Zaitsev",
+      "source": "https://unsplash.com/photos/shadow-and-sunlight-cast-upon-a-concrete-staircase-xDV6YuFBkAo"
+    }
+  ],
+  "disciplines": [
+    {
+      "title": "Intelligent systems",
+      "description": "Computer vision, model training, edge inference and practical AI applications.",
+      "skills": [
+        "Python",
+        "PyTorch",
+        "YOLOv8",
+        "OpenCV",
+        "MobileNetV3",
+        "Raspberry Pi",
+        "ESP32"
+      ]
+    },
+    {
+      "title": "Digital products",
+      "description": "Interfaces and workflows that turn technical capabilities into understandable tools.",
+      "skills": [
+        "Product thinking",
+        "UI/UX",
+        "React",
+        "TypeScript",
+        "FastAPI",
+        "Information architecture"
+      ]
+    },
+    {
+      "title": "Visual expression",
+      "description": "Event identities, posters and workshop creatives, with photography as an ongoing personal practice.",
+      "skills": [
+        "Visual design",
+        "Typography",
+        "Brand identity",
+        "Synapse AI Club",
+        "Visual storytelling"
+      ]
+    }
+  ]
+}

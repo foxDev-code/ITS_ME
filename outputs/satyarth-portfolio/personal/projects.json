@@ -1,0 +1,250 @@
+[
+  {
+    "id": "agri-sarthi",
+    "name": "Agri Sarthi",
+    "eyebrow": "AI product concept · interface & engineering",
+    "status": "Interactive prototype",
+    "repo": "https://github.com/foxDev-code/Agri_Sarthi",
+    "demo": "https://agri-sarthi-lovat.vercel.app/",
+    "image": "agri-hero.png",
+    "secondaryImage": "agri-evolves.png",
+    "color": "#d4dd8f",
+    "summary": "An interactive crop-awareness experience that helps make early observation and field scouting easier to understand.",
+    "challenge": "Crop information is often fragmented. The product question was how to give an observation a useful next step while keeping the experience approachable for farmers.",
+    "approach": "I connected a botanical visual language, an animated product story and a local field notebook. Crop evidence is presented with source context; guided scouting and prepared advice help users record what they see.",
+    "features": [
+      "Crop profile and guided scouting checklist",
+      "Observation notes saved locally in the browser",
+      "Downloadable field notes and clear local-data controls",
+      "Ten animated story scenes and interactive tour controls"
+    ],
+    "stack": [
+      "JavaScript",
+      "Vite",
+      "Three.js",
+      "CSS",
+      "Local storage",
+      "Product design"
+    ],
+    "scope": "The public app is a working interface and crop-awareness concept. A trained disease model and live farm monitoring are not connected to this demo.",
+    "reflection": "The strongest part of an AI product is often the step after a prediction: what someone understands, records and does next.",
+    "sourceFiles": [
+      "src/main.js",
+      "src/crop-evidence.js",
+      "src/scroll-story.js"
+    ],
+    "contribution": "Interactive story, scouting flow and local field notebook.",
+    "outcome": "Working browser prototype; no live disease model connected.",
+    "featured": true
+  },
+  {
+    "id": "suraksha-one",
+    "name": "Suraksha One",
+    "eyebrow": "Safety technology · 3D & product interfaces",
+    "status": "Hardware concept + simulated web demo",
+    "repo": "https://github.com/foxDev-code/Project_Helmet",
+    "demo": "https://suraksha-one-ten.vercel.app/",
+    "image": "helmet-front.png",
+    "secondaryImage": "helmet-exploded.png",
+    "color": "#efc063",
+    "summary": "A smart-helmet concept and supervisor interface exploring clearer safety signals, worker status and emergency response.",
+    "challenge": "Safety interfaces need to bring urgent information forward without making every sensor reading compete for attention.",
+    "approach": "The web experience combines a helmet explorer, visual explanations and a telemetry dashboard. I used a clear hierarchy for gas, health and environment readings, with separate worker views and response controls.",
+    "features": [
+      "Interactive 3D helmet and component exploration",
+      "Supervisor dashboard with worker-level views",
+      "Gas, temperature, heart-rate and SpO2 presentation",
+      "Simulated telemetry and alert scenarios"
+    ],
+    "stack": [
+      "React",
+      "Vite",
+      "Three.js",
+      "GSAP",
+      "Framer Motion",
+      "Interface design"
+    ],
+    "scope": "The published web dashboard simulates its telemetry. It demonstrates the interface and system concept; it is not presented as a certified or field-validated safety system.",
+    "reflection": "A safety dashboard should help a person decide what needs attention, not simply put more numbers on a screen.",
+    "sourceFiles": [
+      "src/components/Dashboard.jsx",
+      "src/components/TelemetryHUD.jsx",
+      "src/components/ThreeHelmet.jsx"
+    ],
+    "contribution": "3D helmet experience, worker views and telemetry interface.",
+    "outcome": "Interactive demo with simulated readings, not field validation.",
+    "featured": true
+  },
+  {
+    "id": "metromaarg",
+    "name": "MetroMaarg",
+    "eyebrow": "Mobility · full-stack product prototype",
+    "status": "Hackathon project",
+    "repo": "https://github.com/foxDev-code/metromaarg-hackwithup",
+    "demo": "https://metromaarg-hackwithup.vercel.app/",
+    "image": "metro-cover.svg",
+    "secondaryImage": "metro-flow.svg",
+    "color": "#9dc5d8",
+    "summary": "A metro travel prototype bringing route planning, ticket journeys and operational dashboards into one experience.",
+    "challenge": "A journey crosses several decisions: which route to take, what the fare means and where the ticket lives. Those steps need a consistent interface.",
+    "approach": "The repository combines React and TypeScript views with Supabase-backed services. Passenger flows cover routes and tickets, while administrator pages explore train status, analytics and QR generation.",
+    "features": [
+      "Station selection, route options and fare presentation",
+      "Ticket-booking and QR-code flows",
+      "Passenger account and ticket history views",
+      "Administrative train, analytics and QR interfaces"
+    ],
+    "stack": [
+      "React",
+      "TypeScript",
+      "Supabase",
+      "PostgreSQL",
+      "Tailwind CSS",
+      "Vite"
+    ],
+    "scope": "This is an independent prototype, not an official metro service. Public source contains the application flows and backend functions; production transit integration is not claimed.",
+    "reflection": "Designing both passenger and operator views makes the relationship between a simple screen and its underlying data much clearer.",
+    "sourceFiles": [
+      "metro-marg/src/pages/RouteFinderPage.tsx",
+      "metro-marg/src/pages/BookTicketPage.tsx",
+      "supabase/functions/calculate-route/index.ts"
+    ],
+    "featured": false
+  },
+  {
+    "id": "nexus-ai-ops",
+    "name": "Nexus AI Ops",
+    "eyebrow": "Applied AI · workflow & dashboard design",
+    "status": "Source available · demo mode supported",
+    "repo": "https://github.com/foxDev-code/Marketing-Agency-AI-Ops-Reporting-Agent",
+    "demo": null,
+    "image": "nexus-cover.svg",
+    "secondaryImage": "nexus-flow.svg",
+    "color": "#c0b2d9",
+    "summary": "An agency operations prototype connecting content, briefs, campaign review and reporting with AI-assisted workflows.",
+    "challenge": "Agency work passes through scattered briefs, content drafts, campaign updates and reports. The goal is a shared view of those steps with useful automation at the handoffs.",
+    "approach": "A Next.js command center organizes the work. Gemini integration handles generation and analysis, while n8n workflow definitions connect status updates, content approvals, campaign alerts, briefs and weekly reporting.",
+    "features": [
+      "Client and campaign command-center views",
+      "AI-assisted content and brief workflows",
+      "Five n8n workflow definitions",
+      "Report generation and configurable webhook connections"
+    ],
+    "stack": [
+      "Next.js",
+      "React",
+      "Gemini API",
+      "n8n",
+      "Recharts",
+      "JavaScript"
+    ],
+    "scope": "The repository supports demo data and fallback responses. Live AI and Slack/Notion automation depend on separately configured credentials and services.",
+    "reflection": "Useful automation keeps its inputs, review points and outcomes visible. The interface is part of the system.",
+    "sourceFiles": [
+      "lib/gemini.js",
+      "lib/n8n.js",
+      "app/api/ai/generate/route.js"
+    ],
+    "contribution": "Agency dashboard, Gemini integration and n8n workflow definitions.",
+    "outcome": "Demo mode works; live integrations require service configuration.",
+    "featured": true
+  },
+  {
+    "id": "resume-intelligence",
+    "name": "Resume Intelligence",
+    "eyebrow": "Applied AI · retrieval & document workflows",
+    "status": "Source available",
+    "repo": "https://github.com/foxDev-code/AI-Resume-Screener-and-Analyzer",
+    "demo": null,
+    "image": "resume-cover.svg",
+    "color": "#e4b29d",
+    "summary": "A document-analysis prototype combining PDF extraction, semantic retrieval and structured résumé-to-role comparisons.",
+    "challenge": "A résumé workflow needs to preserve the evidence behind a summary so a reviewer can inspect it.",
+    "approach": "The FastAPI application extracts PDF text, requests Gemini embeddings and queries Pinecone namespaces for job descriptions and candidate context. A dashboard presents the analysis and search workflow.",
+    "features": [
+      "PDF résumé extraction",
+      "Gemini embedding and analysis integration",
+      "Pinecone retrieval for document context",
+      "Dashboard and n8n workflow templates"
+    ],
+    "stack": [
+      "Python",
+      "FastAPI",
+      "Gemini",
+      "Pinecone",
+      "pypdf",
+      "JavaScript"
+    ],
+    "scope": "An exploratory document-analysis tool requiring configured Gemini and Pinecone services. Its summaries and comparisons are intended to support human review.",
+    "reflection": "An AI summary is more useful when a person can trace it back to the source material and make their own judgment.",
+    "sourceFiles": [
+      "app.py",
+      "templates/index.html",
+      "static/app.js"
+    ],
+    "featured": false
+  },
+  {
+    "id": "qa-matrix",
+    "name": "QA Matrix",
+    "eyebrow": "Developer tooling · AI & quality workflows",
+    "status": "Source available",
+    "repo": "https://github.com/foxDev-code/QUES-ANS_TESTER",
+    "demo": null,
+    "image": "qa-cover.svg",
+    "color": "#a9cebf",
+    "summary": "An AI-assisted quality workflow exploring test planning, automation generation and failure analysis from requirements.",
+    "challenge": "Requirements, test plans and failure reports can drift apart. This project explores how retrieval can keep their context connected.",
+    "approach": "The repository brings together a FastAPI dashboard, Gemini integration, a vector-retrieval path and automation workflows. Its interfaces cover test matrices, generated scripts, failure analysis and API checks.",
+    "features": [
+      "Requirements-to-test-matrix workflow",
+      "Automation generation for multiple test frameworks",
+      "Failure-log and root-cause analysis interface",
+      "API assertions and n8n workflow integration"
+    ],
+    "stack": [
+      "Python",
+      "FastAPI",
+      "Gemini",
+      "Pinecone",
+      "n8n"
+    ],
+    "scope": "An AI-assisted developer-tool prototype. Generated tests and suggested fixes require review and execution; external AI and retrieval services need configuration.",
+    "reflection": "Good test tooling should make assumptions visible and make it easier to challenge the result.",
+    "sourceFiles": [
+      "README.md"
+    ],
+    "featured": false
+  },
+  {
+    "id": "veena-rover",
+    "name": "VEENA Rover",
+    "eyebrow": "Computer vision · robotics & edge AI",
+    "status": "Hardware project · public source unavailable",
+    "repo": null,
+    "demo": null,
+    "image": "veena-cover.svg",
+    "color": "#d9c391",
+    "summary": "A disaster-response rover project exploring person detection, environmental sensing and operator communication.",
+    "challenge": "Rescue-oriented robotics brings computer vision into difficult physical conditions, where sensing, movement and operator feedback need to work together.",
+    "approach": "My project work connects a Raspberry Pi computer-vision pipeline with an ESP32/ESP32-CAM hardware system, environmental sensors, motor control and Wi-Fi communication.",
+    "features": [
+      "YOLOv8 and OpenCV person-detection exploration",
+      "Ultrasonic, gas, flame and temperature sensing",
+      "Motor, servo and water-pump integration",
+      "Operator alerts and two-way communication concept"
+    ],
+    "stack": [
+      "Python",
+      "OpenCV",
+      "YOLOv8",
+      "Raspberry Pi",
+      "ESP32",
+      "C++"
+    ],
+    "scope": "A hardware prototype exploring sensing, computer vision and operator communication. A public source repository and a detailed performance report are not available here yet.",
+    "reflection": "Working with hardware makes constraints tangible: compute, power, communication and human response all matter.",
+    "sourceFiles": [],
+    "featured": false
+  }
+]

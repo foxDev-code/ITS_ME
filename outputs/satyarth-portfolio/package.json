@@ -1,0 +1,8 @@
+{
+  "name": "satyarth-mishra-portfolio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node serve.mjs"
+  }
+}

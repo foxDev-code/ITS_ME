@@ -1,0 +1,43 @@
+{
+  "built": "2026-10-12T12:06:52.385Z",
+  "modifiedModules": 14,
+  "profile": "Satyarth Mishra",
+  "projects": [
+    {
+      "id": "agri-sarthi",
+      "repo": "https://github.com/foxDev-code/Agri_Sarthi",
+      "status": "Interactive prototype"
+    },
+    {
+      "id": "suraksha-one",
+      "repo": "https://github.com/foxDev-code/Project_Helmet",
+      "status": "Hardware concept + simulated web demo"
+    },
+    {
+      "id": "metromaarg",
+      "repo": "https://github.com/foxDev-code/metromaarg-hackwithup",
+      "status": "Hackathon project"
+    },
+    {
+      "id": "nexus-ai-ops",
+      "repo": "https://github.com/foxDev-code/Marketing-Agency-AI-Ops-Reporting-Agent",
+      "status": "Source available · demo mode supported"
+    },
+    {
+      "id": "resume-intelligence",
+      "repo": "https://github.com/foxDev-code/AI-Resume-Screener-and-Analyzer",
+      "status": "Source available"
+    },
+    {
+      "id": "qa-matrix",
+      "repo": "https://github.com/foxDev-code/QUES-ANS_TESTER",
+      "status": "Source available"
+    },
+    {
+      "id": "veena-rover",
+      "repo": null,
+      "status": "Hardware project · public source unavailable"
+    }
+  ],
+  "assetOverrides": 35
+}
