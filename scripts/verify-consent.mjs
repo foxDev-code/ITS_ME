@@ -4,6 +4,8 @@ import vm from 'node:vm';
 import {measurementId} from './privacy.mjs';
 assert.equal(measurementId(),null);assert.equal(measurementId('G-XXXXXXXXXX'),null);
 assert.throws(()=>measurementId('bad-id'));assert.equal(measurementId('G-ABC1234567'),'G-ABC1234567');
+const profile=JSON.parse(await fs.readFile('content/profile.json','utf8'));
+assert.equal(measurementId(profile.gaMeasurementId),'G-S475283TKN');
 const source=await fs.readFile('src/personal/consent.js','utf8');
 function scenario({id='G-ABC1234567',stored=null,storageWorks=true}={}){
  const handlers={},events={},scripts=[],writes=[],deletedCookies=[];let saved=stored,reloads=0;
@@ -18,6 +20,9 @@ function scenario({id='G-ABC1234567',stored=null,storageWorks=true}={}){
  return {accept,reject,close,banner,title,description,button,scripts,writes,deletedCookies,window,get reloads(){return reloads},open(){handlers.click({target:{closest:()=>button}})},change(value,key='sm-analytics-consent-v1'){saved=value;events.storage({key})}};
 }
 const fresh=scenario();assert(!fresh.banner.hidden);assert.equal(fresh.scripts.length,0,'No Google script before consent');assert.equal(fresh.window.dataLayer,undefined,'No Google queue before consent');
+const actual=scenario({id:profile.gaMeasurementId});assert.equal(actual.scripts.length,0);actual.reject.click();assert.equal(actual.scripts.length,0);actual.open();actual.accept.click();assert.equal(actual.scripts[0].src,'https://www.googletagmanager.com/gtag/js?id=G-S475283TKN');
+const generatedConfig=(await fs.readFile('outputs/satyarth-portfolio/index.html','utf8')).match(/id="sm-privacy-config"[^>]*>([^<]+)</)[1];
+assert.equal(JSON.parse(generatedConfig).measurementId,measurementId(process.env.GA_MEASUREMENT_ID??profile.gaMeasurementId),'Build must wire the real ID while honoring an explicit environment override');
 fresh.reject.click();assert(fresh.banner.hidden);assert.equal(fresh.scripts.length,0);assert.equal(fresh.writes.length,1);
 fresh.open();assert(fresh.reject.focused);fresh.accept.click();assert.equal(fresh.scripts.length,1);assert.equal(fresh.scripts[0].src,'https://www.googletagmanager.com/gtag/js?id=G-ABC1234567');
 const commands=fresh.window.dataLayer.map(x=>Array.from(x));const config=commands.find(x=>x[0]==='config');assert.equal(config[2].allow_google_signals,false);assert.equal(config[2].allow_ad_personalization_signals,false);assert.equal(config[2].cookie_expires,15552000);assert.equal(config[2].cookie_update,false);

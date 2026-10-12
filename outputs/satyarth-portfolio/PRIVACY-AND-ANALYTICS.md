@@ -1,5 +1,9 @@
 # Privacy, email contact and optional analytics
 
+## Current configuration — 12 October 2026
+
+The owner supplied `https://foxdev-portfolio.vercel.app` and `G-S475283TKN`. Both are saved as public build defaults in `content/profile.json`. Environment variables `SITE_URL` and `GA_MEASUREMENT_ID` take precedence; remove stale localhost or placeholder values in Vercel. The new production output enables consent-gated GA4 and identifies Vercel in the privacy template. The live site inspected during this audit still had null analytics configuration and requires redeployment. GA4 Realtime receipt and account settings remain unverified. This section supersedes the historical pre-deployment status below; see `LAUNCH-CHECKLIST.md` for current evidence.
+
 ## Inventory presented before website edits
 
 The audit covered authored JavaScript, the generated public HTML, the supplied Node server and bundled JavaScript. Browser execution could not be verified because the in-app browser timed out opening localhost. Source presence alone is not evidence that an optional framework facility executes on every visit.
@@ -28,7 +32,7 @@ The user chose **Keep email-only contact** after this inventory. No contact form
 
 ## Enable GA4 when ready
 
-Create or choose a GA4 property that you own. Add a web data stream for the real public website URL. Copy its Measurement ID; it begins with `G-`. In the hosting build environment, set `GA_MEASUREMENT_ID` to that actual ID, and set `SITE_URL` to the actual HTTPS origin. Run `npm run build:production` and publish the generated output. The ID is public configuration, not a secret, but it must point to your property. No GA account, property or data stream was created or modified during this task.
+The owner's real site URL and Measurement ID are now configured in `content/profile.json`. Run `npm run build:production` and publish the generated output. For a different domain or property, edit those fields or use `SITE_URL` and `GA_MEASUREMENT_ID` build-environment overrides. The ID is public configuration, not a secret. No GA account, property or data stream was created or modified by the code changes.
 
 Without an ID, the footer’s Cookie settings displays “Analytics is currently off”. With a real ID, new visitors see equal-priority Reject analytics and Accept analytics controls. Rejecting or ignoring the banner loads no Google tag. Accepting loads a single Google tag and sends the page view. The code uses basic consent behavior; it does not send denied-consent pings.
 

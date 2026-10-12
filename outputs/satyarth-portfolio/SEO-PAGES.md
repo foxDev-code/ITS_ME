@@ -1,7 +1,5 @@
 # Page metadata
 
-LOCAL PREVIEW ONLY: Set SITE_URL and run the production build before launch.
-
 | Page | Title | Description |
 |---|---|---|
 | / | AI, Design & Code \| foxDev | Explore Satyarth Mishra’s work across AI engineering, digital products and visual design, with selected projects and creative experiments. |

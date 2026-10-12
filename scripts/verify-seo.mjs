@@ -25,6 +25,11 @@ vm.runInNewContext(altFunction+';applyImageAlts();',altContext);
 for(const node of imageNodes)assert.equal(node.description,imageAlts[node.src.split('/').pop()],'Runtime image alt: '+node.src);
 imageNodes[0].src='/personal/assets/helmet-front.png';vm.runInNewContext('applyImageAlts()',altContext);assert.equal(imageNodes[0].description,imageAlts['helmet-front.png'],'Alt follows an image source change');
 const profile=JSON.parse(await fs.readFile(path.join(root,'personal/profile.json')));
+const deployment=JSON.parse(await fs.readFile('vercel.json'));
+assert.equal(deployment.outputDirectory,'outputs/satyarth-portfolio');
+assert.equal(deployment.buildCommand,'npm run build:production');
+assert.equal(deployment.framework,null,'Do not deploy the unused Vite prototype');
+assert.equal(siteOrigin(profile.siteUrl,true),'https://foxdev-portfolio.vercel.app');
 const gallery=vm.runInNewContext(runtime.match(/const gallery=(\[[\s\S]*?\n\]);/)[1],{profile});
 for(const shot of gallery){const key=new URL(shot.image,'https://portfolio.test/').pathname.split('/').pop();assert(Object.hasOwn(imageAlts,key)&&imageAlts[key],'Gallery artwork needs specific alt: '+key);}
 const navigation=runtime.match(/document\.addEventListener\('click',event=>\{[\s\S]*?\},true\);/)[0];

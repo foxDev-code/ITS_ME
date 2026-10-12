@@ -1,4 +1,50 @@
-# Four-round launch verification
+# Four-round launch verification — current audit
+
+Verified on 12 October 2026 against `https://foxdev-portfolio.vercel.app` and the local production build. Plans were presented before each round. This report distinguishes tested local fixes from the currently deployed version.
+
+**Verdict: redeploy the corrected build before promoting the site.** The live site still uses localhost canonical, sitemap and share-image URLs, has null GA4 configuration, and predates the foxDev branding commit. These are repeated configuration failures across pages, not 73 independent design bugs. Local fixes now use the supplied public domain and real Measurement ID. Satyarth Mishra remains the personal identity.
+
+| Round | Corrected production build | Live verification |
+|---|---|---|
+| 1 — Google | 11 unique page titles/descriptions, 111 internal-link checks, generated sitemap/robots and custom 404 pass. `vercel.json` pins the production build/output folder. | All public pages return 200; two made-up routes return custom 404 for GET and HEAD. Live canonical/sitemap/robots origins still point to localhost until redeployment. |
+| 2 — Sharing | Static OG/Twitter tags pass; 3 PNG cards are 1200 × 630; 1,011 HTML image instances and 96 runtime sources have reviewed alternatives. | No missing alt attribute observed on the live homepage. Share URLs still point to localhost. Actual WhatsApp/LinkedIn card rendering and cache refresh are not verified. |
+| 3 — Contact/tracking | Real `G-S475283TKN` wired into generated pages; worldwide opt-in consent tests pass, including reject/accept/withdraw/expiry. Vercel identified in privacy template. | Email-only contact; no submission form. `/thank-you` returns 200 and has noindex. Live GA configuration is null until redeployment. GA4 Realtime is not verified. |
+| 4 — Trust | Resource scans pass with no insecure resource URLs; FAQ and review-placeholder checks pass; no FAQ/review-star schema. | TLS and HTTP 308 redirects pass on 11 public pages, thank-you and an unknown route. Path/query preservation passes. All 6 FAQ accordions opened. Two review placeholders contain no fabricated feedback. Recoverable React hydration warnings were observed. |
+
+## Changes and scope
+
+- `content/profile.json` contains the public launch origin and public GA4 ID. Existing environment variables take precedence; remove stale localhost or placeholder values in Vercel.
+- `vercel.json` sets framework Other (`null`), `npm run build:production`, install command `node --version`, and output directory `outputs/satyarth-portfolio`. Build uses Node built-ins, not the unused Vite prototype.
+- Contact remains email-only, as the owner previously chose. Honeypot, rate limiting, server validation and CAPTCHA are not applicable without a submission endpoint. The artwork viewer's `method="dialog"` form is local UI, not a server submission.
+- `/thank-you` is not a receipt and is not automatically reached after mailto. Do not count its views as successful submissions. A future real form needs confirmed delivery and server protections first.
+- Privacy remains prominently marked as a template for owner review. Actual hosting/email retention, GA settings and applicable obligations require that review.
+- No new reviews, reviewers, ratings or photos were invented. Existing unanswered availability/rates/response-time questions remain unpublished.
+
+## Checks to run after deployment
+
+```powershell
+npm run build:production
+node scripts/verify-live-seo.mjs
+node scripts/verify-live-https.mjs https://foxdev-portfolio.vercel.app
+```
+
+`verify-live-seo.mjs` checks live metadata, sitemap/robots, internal destinations, image alternatives, share-card dimensions, consent configuration, thank-you indexing, FAQ/reviews and real 404 responses. It saves observations to `work/launch-check/live-seo.json`. It currently fails on the old deployment, correctly. An optional third argument supplies a local transport URL for testing the new production metadata without changing its canonical origin.
+
+After redeployment, open a fresh private browser window. Before accepting or after rejecting, no Google tag should load. Accept analytics and confirm exactly one `gtag/js?id=G-S475283TKN` tag. Reopen Cookie settings and reject to withdraw. Then check the owner's GA4 Realtime report. Automated consent tests sent no requests to Google and do not prove Google received data.
+
+Paste a homepage/project URL into an unsent WhatsApp or LinkedIn draft and inspect the preview. Do not send a message for this test. Apps cache cards; refresh with the platform's tools or change the image filename if needed. The default file is `work/personalization/assets/share-default-placeholder.png`, a 1200 × 630 PNG.
+
+Review every public page's intended title and description in `outputs/satyarth-portfolio/SEO-PAGES.md`. Full image alternatives are in `content/image-alts.json` and `content/IMAGE-ALT-PLAN.md`.
+
+## Remaining limits
+
+Browser FAQ behavior was verified live. The local in-app browser timed out; local Node HTTP verification worked. The live browser showed recoverable React hydration errors #418/#422, not mixed-content warnings in the inspected logs. This audit does not certify all dynamic requests, full accessibility, performance, external destinations, or third-party preview/analytics processing. Do not call the site perfect or all checks green before redeployment and those remaining checks.
+
+Graphify reused the 7,820-node map. Exact vocabulary: `profile build shared review`; 117 nodes found, 15 shown, 102 omitted at budget 900. It predates SEO/consent additions, so direct source tracing and runnable checks provide current evidence. No full reindex was performed. Token usage is unavailable, not zero.
+
+---
+
+## Historical pre-deployment audit — superseded by the current results above
 
 Verified locally on 12 October 2026. Plans were shown before each round. Existing implementations passed, so no duplicate features or new dependencies were added. The only authored changes in this audit are this report and corrected counts in SHARE-PREVIEWS.md. Generated output was rebuilt.
 

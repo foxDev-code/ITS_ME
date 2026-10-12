@@ -19,7 +19,7 @@ export function siteOrigin(value,production=false){
  return url.origin;
 }
 export async function buildSEO(out,projects,profile,origin){
- const gaId=measurementId(process.env.GA_MEASUREMENT_ID);
+ const gaId=measurementId(process.env.GA_MEASUREMENT_ID??profile.gaMeasurementId);
  await buildPrivacyPages(out,profile,gaId);
  const about=JSON.parse(await fs.readFile('content/about-extras.json','utf8'));
  const aboutSections=`<div class="sm-about-extras"><section id="faq" aria-labelledby="sm-faq-title"><p class="sm-kicker">A few useful answers</p><h2 id="sm-faq-title">Before we start.</h2><div class="sm-faq">${about.faq.filter(item=>!item.needsConfirmation).map(item=>`<details name="portfolio-faq"><summary>${escape(item.question)}<span aria-hidden="true">+</span></summary><p>${escape(item.answer)}</p></details>`).join('')}</div><p class="sm-faq-links"><a href="/work">Explore project stories</a><a href="${escape(profile.github)}" target="_blank" rel="noopener noreferrer">Browse my GitHub</a><a href="mailto:${escape(profile.email)}">Email Satyarth</a></p></section><section id="testimonials" aria-labelledby="sm-feedback-title"><p class="sm-kicker">Testimonials</p><h2 id="sm-feedback-title">Room for real feedback.</h2><p class="sm-feedback-note">Placeholders only. No reviews have been published here.</p><div class="sm-feedback-grid">${about.reviewPlaceholders.map(slot=>`<article class="sm-review-placeholder" data-sm-review-placeholder="${escape(slot.id)}" aria-label="Empty review placeholder ${escape(slot.id)}"><h3>Review placeholder ${escape(slot.id)}</h3><p>[Exact review text to be supplied]</p><p class="sm-placeholder-attribution">[Approved name and role to be supplied]</p></article>`).join('')}</div></section></div>`;

@@ -1,8 +1,8 @@
 # foxDev — Satyarth’s portfolio
 
-Privacy and optional analytics setup are documented in `PRIVACY-AND-ANALYTICS.md`. Contact remains email-only. Set a real `GA_MEASUREMENT_ID` in the build environment to enable opt-in analytics; the placeholder `G-XXXXXXXXXX` leaves tracking disabled. Review the `/privacy` template before launch. `/thank-you` is noindex and is not an email delivery receipt.
+Privacy and optional analytics setup are documented in `PRIVACY-AND-ANALYTICS.md`. Contact remains email-only. `profile.json` now stores the public site URL and real GA4 ID `G-S475283TKN`. The build uses those defaults; `SITE_URL` and `GA_MEASUREMENT_ID` environment variables can override them. An empty GA ID or `G-XXXXXXXXXX` explicitly disables tracking. Review the `/privacy` template before launch. `/thank-you` is noindex and is not an email delivery receipt.
 
-Edit `about-extras.json` for the About FAQ and empty testimonial slot identifiers. See `HTTPS-FAQ-REVIEWS.md` for answer evidence, claims awaiting confirmation, exact-review handling and the pending deployed HTTPS checks.
+Edit `about-extras.json` for the About FAQ and empty testimonial slot identifiers. See `HTTPS-FAQ-REVIEWS.md` for answer evidence, claims awaiting confirmation and exact-review handling. See `LAUNCH-CHECKLIST.md` for the latest local versus deployed verification results. Root `vercel.json` pins the production build and output folder.
 
 Edit `profile.json` for the bio, contact links, location, skills and GitHub call-to-action. Edit `projects.json` for the seven case studies. `replacements.json` maps the reference page's text to personalized content.
 

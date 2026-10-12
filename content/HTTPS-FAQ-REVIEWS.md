@@ -1,5 +1,9 @@
 # HTTPS, FAQ and testimonial placeholders
 
+## Current live verification — 12 October 2026
+
+The site is now deployed at `https://foxdev-portfolio.vercel.app` on Vercel. `verify-live-https.mjs` passed TLS certificate validation for all 11 public pages, `/thank-you` and an unknown URL. HTTP returns 308 to HTTPS, preserving paths and queries. Unknown GET/HEAD requests return a real custom HTTP 404. All six FAQ accordions opened in the live browser; reviews remain visibly empty placeholders. Source scans found no insecure resource references. The browser reported recoverable React hydration warnings; this is not a clean-console or complete accessibility/performance approval. Local browser navigation timed out, although local HTTP checks passed. The new production metadata/GA4 configuration must still be deployed. This current section supersedes the historical pending-deployment status below. See `LAUNCH-CHECKLIST.md` for remaining gates.
+
 Updated 12 October 2026. The plan and six proposed questions with draft answers were shown before website edits. The user authorized proposing questions from the existing site and confirmed that the portfolio is not deployed yet.
 
 ## HTTPS status
