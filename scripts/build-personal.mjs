@@ -61,6 +61,8 @@ const imagePairs={
 Object.assign(assetMap,imagePairs);
 function localizeAssets(value){return value.replace(/\/vendor\/framerusercontent\.com\/images\/([A-Za-z0-9_-]+\.(?:png|jpe?g|gif|webp))(?:\?[^\s"'`<>)]*)?/g,(whole,name)=>assetMap[name]?'/personal/assets/'+assetMap[name]:whole);}
 function replaceValue(value){
+ if(value.startsWith("Hey there, I'm Jackie,"))return profile.intro;
+ if(value==='@jackielszhang')return '@'+new URL(profile.github).pathname.split('/').filter(Boolean).at(-1);
  if(value.startsWith('Almost heaven, West Virginia.'))return 'Stay curious. Make things. Ask better questions. AI, design, code and a little creative chaos. From Greater Noida, with care.';
  let result=Object.hasOwn(replacements,value)?replacements[value]:value.replace(longPattern,key=>replacements[key]);
  for(const [from,to] of Object.entries(links))result=result.replaceAll(from,to);
@@ -105,7 +107,10 @@ await fs.writeFile(path.join(out,'personal/projects.json'),JSON.stringify(projec
 await fs.copyFile('src/personal/personal.css',path.join(out,'personal/personal.css'));
 await fs.copyFile('src/personal/personal.js',path.join(out,'personal/personal.js'));
 await buildCasePages(out,projects,profile);
-await buildSEO(out,projects,profile,origin);
+const pages=await buildSEO(out,projects,profile,origin);
+// Rebuild inherited search data from current public pages, not the reference identity.
+const searchIndex=Object.fromEntries(pages.map(page=>[page.url,{version:1,title:page.title,description:page.description,keywords:'',h1:[page.name],h2:[],h3:[],h4:[],h5:[],h6:[],p:[page.description],codeblock:[],url:page.url}]));
+for(const file of await walk(path.join(out,'vendor')))if(/^searchIndex-.*\.json$/.test(path.basename(file)))await fs.writeFile(file,JSON.stringify(searchIndex));
 const server=(await fs.readFile('scripts/serve.mjs','utf8')).replace("new URL('../outputs/portfolio/',import.meta.url)","new URL('./',import.meta.url)");
 await fs.writeFile(path.join(out,'serve.mjs'),server);
 await fs.writeFile(path.join(out,'package.json'),JSON.stringify({name:'satyarth-mishra-portfolio',private:true,type:'module',scripts:{start:'node serve.mjs'}},null,2));

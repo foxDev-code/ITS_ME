@@ -59,7 +59,7 @@ work/portfolio-teaser/        Cinematic video and composition source
 
 ## Design and asset credits
 
-The main-page composition and compiled Framer/React motion originate from [Jackie Zhang's portfolio](https://jackiezhang.co.za/). This project personalizes that reference; it does not claim the reference design, runtime or source assets as original work. Custom project stories, portfolio graphic studies and the cinematic teaser are additions. Third-party assets retain their respective ownership and terms; no blanket license is granted for them. Review reuse permissions before public release.
+The main-page composition retains a third-party Framer/React reference. Custom project stories, portfolio graphic studies and the cinematic teaser are additions. Third-party design, runtime and source assets are not claimed as original work and retain their respective ownership and terms; no blanket license is granted for them. Review reuse permissions before public release.
 
 Photography references by Annie Spratt and Aleksandr Zaitsev are credited in the site and [content notes](content/README.md). They are not presented as Satyarth's photography. Project descriptions distinguish prototypes, simulated telemetry and résumé-documented work from production claims. No testimonials are invented.
 

@@ -39,7 +39,7 @@ The personal section covers photography, type/layout and community using the use
 - Botanical photograph: [Annie Spratt / Unsplash](https://unsplash.com/photos/a-bunch-of-flowers-sitting-on-top-of-a-piece-of-paper-qMf_Xdue_M4).
 - Staircase photograph: [Aleksandr Zaitsev / Unsplash](https://unsplash.com/photos/shadow-and-sunlight-cast-upon-a-concrete-staircase-xDV6YuFBkAo).
 - Both photo pages identify the [Unsplash License](https://unsplash.com/license). Photos are credited on the page and explicitly labeled as external visual references, not Satyarth's photography. They are remote images and need internet access; the GitHub screenshot is bundled locally.
-- The live Jackie Zhang homepage was visually rechecked for paper, warm texture and scrapbook direction. This remains a reference-derived composition, not a claim of original visual authorship.
+- The reference homepage was visually rechecked for paper, warm texture and scrapbook direction. This remains a reference-derived composition, not a claim of original visual authorship.
 - LinkedIn public search corroborated the profile identity and education; full-page retrieval was blocked/rate-limited. No additional unverified achievements were imported.
 
 The downloadable résumé is the user-supplied PDF, unchanged. Its LinkedIn address differs from the corrected website address; update the PDF before public release.

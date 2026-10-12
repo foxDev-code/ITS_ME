@@ -72,4 +72,5 @@ export async function buildSEO(out,projects,profile,origin){
  await fs.writeFile(path.join(out,'SEO-PAGES.md'),'# Page metadata\n\n'+(origin.includes('localhost')?'LOCAL PREVIEW ONLY: Set SITE_URL and run the production build before launch.\n\n':'')+'| Page | Title | Description |\n|---|---|---|\n'+pages.map(p=>`| ${p.url} | ${p.title.replaceAll('|','\\|')} | ${p.description} |`).join('\n')+'\n');
  console.log(`SEO: ${pages.length} public pages; sitemap origin ${origin}${origin.includes('localhost')?' (local preview only)':''}`);
  console.log(`Contact: email only; no submission endpoint. GA4: ${gaId?'configured, consent required':'disabled; set a real GA_MEASUREMENT_ID to enable'}.`);
+ return pages;
 }

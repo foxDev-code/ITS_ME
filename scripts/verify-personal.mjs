@@ -87,6 +87,14 @@ await fs.access(path.join(root,'personal/assets/fox-seal.png'));
 assert.equal(profile.intro,'I turn ideas into intelligent products—connecting machine learning, thoughtful interfaces and visual storytelling.','Opening introduction must stay unchanged');
 // Regression: the stacked value cards require opaque paper, not icon-only SVGs.
 const home=await fs.readFile(path.join(root,'index.html'),'utf8');
+const publicPages=JSON.parse(await fs.readFile(path.join(root,'personal/pages.json'),'utf8'));
+for(const page of publicPages)assert(!/jackie|jackielszhang/i.test(await fs.readFile(path.join(root,page.url,'index.html'),'utf8')),`Reference identity leaked into ${page.url}`);
+for(const file of files.filter(file=>file.endsWith('.mjs')||/^searchIndex-.*\.json$/.test(path.basename(file)))){
+ const text=await fs.readFile(file,'utf8');
+ assert(!/jackie|jackielszhang/i.test(text),`Reference identity leaked into runtime data: ${file}`);
+ if(/^searchIndex-/.test(path.basename(file))){const index=JSON.parse(text);assert.deepEqual(Object.keys(index).sort(),publicPages.map(page=>page.url).sort(),'Search index must contain only current public pages');for(const page of publicPages)assert.equal(index[page.url].description,page.description);}
+}
+assert(!/jackie|jackielszhang/i.test(await fs.readFile('README.md','utf8')),'Main project README must use the portfolio identity');
 assert(home.includes('/personal/assets/satyarth-cutout.png')&&!home.includes('/personal/assets/monogram.svg'),'Polaroid must use the portrait cutout');
 assert(!styles.includes('[data-framer-name="Fundam"]{display:none'),'Keep the independent draggable mask visible');
 assert(!styles.includes('[data-framer-name="About me section"]{z-index:6'),'Preserve the native collage/card stacking');
