@@ -1,0 +1,48 @@
+{
+  "zreYWHKtYVvdYwuZm8gBYAa3IiA.png": {
+    "512": {
+      "file": "zreYWHKtYVvdYwuZm8gBYAa3IiA-512.png",
+      "width": 512,
+      "height": 423,
+      "bytes": 27911
+    },
+    "1024": {
+      "file": "zreYWHKtYVvdYwuZm8gBYAa3IiA-1024.png",
+      "width": 1024,
+      "height": 846,
+      "bytes": 80698
+    },
+    "default": {
+      "file": "zreYWHKtYVvdYwuZm8gBYAa3IiA-1687.png",
+      "width": 1687,
+      "height": 1394,
+      "bytes": 178166
+    }
+  },
+  "FqqwJe3cXajmh3c17ziisS6QOJU.jpg": {
+    "512": {
+      "file": "FqqwJe3cXajmh3c17ziisS6QOJU-512.webp",
+      "width": 512,
+      "height": 342,
+      "bytes": 26204
+    },
+    "1024": {
+      "file": "FqqwJe3cXajmh3c17ziisS6QOJU-1024.webp",
+      "width": 1024,
+      "height": 683,
+      "bytes": 119602
+    },
+    "2048": {
+      "file": "FqqwJe3cXajmh3c17ziisS6QOJU-2048.webp",
+      "width": 2048,
+      "height": 1366,
+      "bytes": 395696
+    },
+    "default": {
+      "file": "FqqwJe3cXajmh3c17ziisS6QOJU-3367.webp",
+      "width": 3367,
+      "height": 2246,
+      "bytes": 846752
+    }
+  }
+}

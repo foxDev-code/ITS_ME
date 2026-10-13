@@ -26,3 +26,22 @@ for(const size of [48,180])await sharp(favicon).resize(size,size).png().toFile(p
 await fs.writeFile('content/media-variants.json',JSON.stringify(variants,null,2)+'\n');
 await fs.mkdir('work/launch-check',{recursive:true});await fs.writeFile('work/launch-check/media-compression.json',JSON.stringify(report,null,2));
 console.log(JSON.stringify({files:report.length,before:report.reduce((n,r)=>n+r.before,0),after:report.reduce((n,r)=>n+r.after,0),report},null,2));
+// Reuse the origin's transparent PNG derivatives; converting this line art to WebP is larger.
+const nativeDir='outputs/portfolio/vendor/framerusercontent.com/images',responsive={};
+for(const [name,widths] of Object.entries({'zreYWHKtYVvdYwuZm8gBYAa3IiA.png':[512,1024],'FqqwJe3cXajmh3c17ziisS6QOJU.jpg':[512,1024,2048]})){
+ const original=await sharp(path.join(nativeDir,name)).metadata(),family={};
+ for(const scale of [...widths,'default']){
+  const source=path.join(nativeDir,name+(scale==='default'?'':'.scale-'+scale)),input=await fs.readFile(source);
+  const output=name.endsWith('.png')?input:await sharp(input).webp({quality:82,effort:6}).toBuffer();
+  const metadata=await sharp(output).metadata(),width=metadata.width;
+  assert.equal(width,scale==='default'?original.width:scale,'Derivative must have its advertised width');
+  assert(Math.abs(width/metadata.height-original.width/original.height)<.01,'Keep native artwork aspect ratio');
+  if(original.hasAlpha)assert(metadata.hasAlpha,'Keep illustration transparency');
+  if(scale!=='default')assert(output.length<(await fs.stat(path.join(nativeDir,name))).size,'Derivative must save bytes');
+  const file=name.replace(/\.[^.]+$/,'')+'-'+width+'.'+(name.endsWith('.png')?'png':'webp');
+  await fs.writeFile(path.join(dir,file),output);family[scale]={file,width,height:metadata.height,bytes:output.length};
+ }
+ responsive[name]=family;
+}
+await fs.writeFile('content/responsive-images.json',JSON.stringify(responsive,null,2)+'\n');
+console.log('Native static derivatives: '+JSON.stringify(responsive));

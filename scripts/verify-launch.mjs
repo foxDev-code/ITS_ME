@@ -4,11 +4,25 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import {gzipSync} from 'node:zlib';
+import {nativeImageURLs,homeSemantics,heroImage,heroSizes} from './performance.mjs';
 const root='outputs/satyarth-portfolio';
 const pages=JSON.parse(await fs.readFile(root+'/personal/pages.json'));
 const profile=JSON.parse(await fs.readFile(root+'/personal/profile.json'));
 const deployment=JSON.parse(await fs.readFile('vercel.json'));
 const variants=JSON.parse(await fs.readFile('content/media-variants.json'));
+const responsive=JSON.parse(await fs.readFile('content/responsive-images.json'));
+assert.equal(nativeImageURLs(`/vendor/framerusercontent.com/images/${heroImage}?scale-down-to=512&amp;width=1687`,responsive),'/personal/assets/'+responsive[heroImage]['512'].file);
+assert.equal(nativeImageURLs(`/vendor/framerusercontent.com/images/${heroImage}?scale-down-to=999`,responsive),'/personal/assets/'+responsive[heroImage].default.file);
+assert.equal(nativeImageURLs(`/vendor/framerusercontent.com/images/${heroImage}?scale-down-to=toString`,responsive),'/personal/assets/'+responsive[heroImage].default.file);
+assert.equal(nativeImageURLs('/vendor/framerusercontent.com/images/unknown.png?scale-down-to=512',responsive),'/vendor/framerusercontent.com/images/unknown.png?scale-down-to=512');
+assert.equal(homeSemantics('<h3 class="framer-text">Greater Noida · IST +5:30</h3>',true),'<p class="framer-text">Greater Noida · IST +5:30</p>');
+assert(homeSemantics('a(`h3`,{style:{color:`red`},children:"Greater Noida · IST +5:30"})').includes('a("p",'));
+for(const family of Object.values(responsive))for(const item of Object.values(family)){
+ assert(/^[\w-]+\.(?:png|webp)$/.test(item.file),'Derivative path must stay inside the media directory');
+ const bytes=await fs.readFile(root+'/personal/assets/'+item.file);assert.equal(bytes.length,item.bytes);
+ if(item.file.endsWith('.png')){assert.equal(bytes.readUInt32BE(16),item.width);assert.equal(bytes.readUInt32BE(20),item.height);}
+ else{assert.equal(bytes.toString('ascii',0,4),'RIFF');assert.equal(bytes.toString('ascii',8,12),'WEBP');}
+}
 const ratio=(a,b)=>{const luminance=hex=>hex.match(/\w\w/g).map(x=>parseInt(x,16)/255).map(x=>x<=.04045?x/12.92:((x+.055)/1.055)**2.4).reduce((n,x,i)=>n+x*[.2126,.7152,.0722][i],0);return (Math.max(luminance(a),luminance(b))+.05)/(Math.min(luminance(a),luminance(b))+.05)};
 assert.equal(ratio('ffffff','ffffff'),1);assert.equal(ratio('000000','ffffff'),21);
 const styles=await fs.readFile(root+'/personal/personal.css','utf8');
@@ -41,7 +55,11 @@ for(const page of [...pages,{url:'/thank-you'},{url:'/404.html'}]){
  assert.equal((html.match(/<h1\b/g)||[]).length,1,'Exactly one page heading: '+page.url);
  if(['/','/work','/about'].includes(page.url))assert(/<h1 id="sm-page-heading" class="sm-sr-only">[^<]+<\/h1><div role="main" id="main" aria-labelledby="sm-page-heading"/.test(html),'Keep page heading accessible and outside the hydration root');
  if(page.url==='/privacy')assert(html.includes('Enhanced Measurement is enabled')&&html.includes('does not guarantee')&&html.includes('scrolling, outbound link clicks and file-download clicks'),'Disclose enabled automatic analytics and URL limitations');
- if(page.url==='/')for(const tag of html.match(/<img\b[^>]*>/g).filter(t=>t.includes('zreYWHKtYVvdYwuZm8gBYAa3IiA')))assert(tag.includes('loading="eager"')&&tag.includes('fetchpriority="high"'),'Do not lazy-load the measured mobile LCP illustration');
+ if(page.url==='/'){
+  assert(!/<h[2-6]\b[^>]*>Greater Noida/.test(html),'Location metadata must not skip heading levels');
+  assert(html.includes('imagesrcset=')&&html.includes(`imagesizes="${heroSizes}"`),'Preload the same responsive hero candidates as the image');
+  for(const tag of html.match(/<img\b[^>]*>/g).filter(t=>t.includes('zreYWHKtYVvdYwuZm8gBYAa3IiA')))assert(tag.includes('loading="eager"')&&tag.includes('fetchpriority="high"')&&!tag.includes('scale-down-to='),'Hero must use actual derivatives, not resize query parameters');
+ }
  if(page.url==='/terms')assert(html.includes('Template — owner review required.')&&html.includes('Third-party designs'),'Terms must preserve third-party ownership and require review');
  for(const match of html.matchAll(/<a\b[^>]*href="(https:\/\/[^"#]+)"/g))external.add(match[1].replaceAll('&amp;','&'));
  payload.push({path:page.url,htmlBytes:Buffer.byteLength(html),gzipBytes:gzipSync(html).length});
@@ -51,6 +69,9 @@ for(const file of ['scripts/serve.mjs','scripts/personal-pages.mjs']){
  for(const [old,id] of Object.entries(legacy))assert(deployment.redirects.some(r=>r.source===`/case-studies/${old}/:path*`&&r.destination===`/projects/${id}/`&&r.permanent===true),'Vercel must match local legacy redirects: '+old);
 }
 const runtime=await fs.readFile(root+'/personal/personal.js','utf8');assert(runtime.includes("item.setAttribute('role','button')")&&runtime.includes("event.key==='Enter'||event.key===' '"),'Connect must have a keyboard equivalent');
+const photoVariants=vm.runInNewContext('('+runtime.match(/const photoVariants=([^\n]+);/)[1]+')',{URL});
+const candidates=photoVariants(profile.visualReferences[0].image).split(',');assert.equal(candidates.length,3);
+for(const [i,width] of [320,640,900].entries()){const [url,descriptor]=candidates[i].split(' ');assert.equal(new URL(url).searchParams.get('w'),String(width));assert.equal(new URL(url).searchParams.get('q'),'75');assert.equal(descriptor,width+'w');}
 // Exercise both handoff orders: React ready before the module, and ready afterwards.
 const handoff=runtime.slice(runtime.indexOf("if(document.documentElement.dataset.smHydrated==='true')"));
 for(const ready of [true,false]){let starts=0,listener;vm.runInNewContext(handoff,{document:{documentElement:{dataset:{smHydrated:ready?'true':undefined}},addEventListener(name,callback,options){assert.equal(name,'sm:hydrated');assert.equal(options.once,true);listener=callback;}},startPersonalization(){starts++;}});assert.equal(starts,Number(ready));if(!ready){listener();assert.equal(starts,1);}}
@@ -58,6 +79,10 @@ const bootstrap=await fs.readFile(root+'/vendor/framerusercontent.com/sites/684h
 assert(!bootstrap.includes('SmReady')&&bootstrap.includes('g(t,u,{onRecoverableError:n})'),'Keep native hydration errors visible; the root cannot signal deferred-page readiness');
 const vendor=root+'/vendor/framerusercontent.com/sites/684hnbMBXBVbej1PQ2QXEz/';
 for(const prefix of ['n3aQpPOIiQ-','Du1hgjZRKl','09z_toCCH']){const file=(await fs.readdir(vendor)).find(name=>name.startsWith(prefix)&&name.endsWith('.mjs'));assert((await fs.readFile(vendor+file,'utf8')).includes('function(e,n){smEffect(()=>{document.documentElement.dataset.smHydrated="true";'),'Wait for the actual page commit: '+file);}
+const homeModule=await fs.readFile(vendor+(await fs.readdir(vendor)).find(name=>name.startsWith('n3aQpPOIiQ-')&&name.endsWith('.mjs')),'utf8');
+assert(homeModule.includes('children:"Greater Noida · IST +5:30"')&&!/h3["`],\{style:\{[^{}]*\},children:"Greater Noida/.test(homeModule),'Client location semantics must match server HTML');
+const heroBlocks=homeModule.match(/background:\{[^{}]*zreYWHKtYVvdYwuZm8gBYAa3IiA[^{}]*\}/g)??[];assert(heroBlocks.length>=4,'Verify every responsive hero background');
+for(const block of heroBlocks)assert(block.startsWith('background:{loading:"eager",')&&!block.includes('scale-down-to='),'Keep actual hero derivatives eager after hydration');
 const workHTML=await fs.readFile(root+'/work/index.html','utf8');
 for(const [title,role] of [['Synapse Club','contributor'],['QA Matrix','AI product builder'],['MCQ Lab','Web developer']]){const cards=[...workHTML.matchAll(new RegExp('<div class="framer-6kplfv"[^>]*><p\\b[^>]*>'+title+'<\\/p>[\\s\\S]*?(?=<div class="framer-h1nwjz")','g'))];assert.equal(cards.length,3,'Keep every SSR breakpoint in sync: '+title);for(const card of cards)assert(card[0].includes('>'+role+'<'),'SSR role differs from client: '+title);}
 assert.equal((workHTML.match(/>Prototype<\/p>/g)||[]).length,3,'SSR project dates must match the client');

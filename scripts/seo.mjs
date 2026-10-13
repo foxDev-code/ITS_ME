@@ -26,6 +26,11 @@ export async function buildSEO(out,projects,profile,origin){
  const alts=JSON.parse(await fs.readFile('content/image-alts.json','utf8'));
  const variants=JSON.parse(await fs.readFile('content/media-variants.json','utf8'));
  for(const [original,variant] of Object.entries(variants))if(Object.hasOwn(alts,original))alts[variant]=alts[original];
+ const responsive=JSON.parse(await fs.readFile('content/responsive-images.json','utf8'));
+ for(const [original,family] of Object.entries(responsive)){
+  if(!Object.hasOwn(alts,original))throw Error('Responsive image needs alt review: '+original);
+  for(const item of Object.values(family))alts[item.file]=alts[original];
+ }
  const applyAlts=html=>html.replace(/<img\b[^>]*>/g,tag=>{
   const src=tag.match(/\bsrc="([^"]+)"/)?.[1];
   const key=src?.split('?')[0].split('/').pop();

@@ -3,6 +3,7 @@ import path from 'node:path';
 import {buildArt} from './personal-art.mjs';
 import {buildCasePages} from './personal-pages.mjs';
 import {buildSEO,siteOrigin} from './seo.mjs';
+import {nativeImageURLs,homeSemantics,heroImage,heroSizes} from './performance.mjs';
 const source=path.resolve('outputs/portfolio');
 const out=path.resolve('outputs/satyarth-portfolio');
 const profile=JSON.parse(await fs.readFile('content/profile.json','utf8'));
@@ -10,6 +11,7 @@ const origin=siteOrigin(process.env.SITE_URL??profile.siteUrl,process.argv.inclu
 const projects=JSON.parse(await fs.readFile('content/projects.json','utf8'));
 const replacements=JSON.parse(await fs.readFile('content/replacements.json','utf8'));
 const mediaVariants=JSON.parse(await fs.readFile('content/media-variants.json','utf8'));
+const responsiveImages=JSON.parse(await fs.readFile('content/responsive-images.json','utf8'));
 const optimizeMedia=value=>Object.entries(mediaVariants).reduce((text,[from,to])=>text.replaceAll(from,to),value);
 for(const key of ['Jackie Zhang','Jackie','JACKIE','jackie'])replacements[key]=profile.siteName;
 const escapeRegExp=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
@@ -65,7 +67,7 @@ const imagePairs={
 };
 Object.assign(assetMap,imagePairs);
 Object.assign(assetMap,mediaVariants);
-function localizeAssets(value){return optimizeMedia(value.replace(/\/vendor\/framerusercontent\.com\/images\/([A-Za-z0-9_-]+\.(?:png|jpe?g|gif|webp))(?:\?[^\s"'`<>)]*)?/g,(whole,name)=>assetMap[name]?'/personal/assets/'+assetMap[name]:whole));}
+function localizeAssets(value){return nativeImageURLs(optimizeMedia(value.replace(/\/vendor\/framerusercontent\.com\/images\/([A-Za-z0-9_-]+\.(?:png|jpe?g|gif|webp))(?:\?[^\s"'`<>)]*)?/g,(whole,name)=>assetMap[name]?'/personal/assets/'+assetMap[name]:whole)),responsiveImages);}
 function replaceValue(value){
  if(value.startsWith("Hey there, I'm Jackie,"))return profile.intro;
  if(value==='@jackielszhang')return '@'+new URL(profile.github).pathname.split('/').filter(Boolean).at(-1);
@@ -97,6 +99,11 @@ for(const file of await walk(path.join(out,'vendor'))){if(!/\.(mjs|js|json|css)$
  if(path.basename(file).startsWith('09z_toCCH'))text=personalizeWork(text);
  if(/\.(mjs|js)$/.test(file))text=text.replace(/`((?:\\[\s\S]|[^`\\])*)`|"((?:\\[\s\S]|[^"\\])*)"|'((?:\\[\s\S]|[^'\\])*)'/g,(whole,t,d,s)=>{const quote=t!==undefined?'`':d!==undefined?'"':"'";const raw=t??d??s;if(quote==='`'&&raw.includes('${'))return whole;const decoded=decodeString(raw,quote);const value=replaceValue(decoded);return value!==decoded?JSON.stringify(value):whole;});
  else text=localizeAssets(text);
+ if(path.basename(file).startsWith('n3aQpPOIiQ-')){
+  text=homeSemantics(text);
+  // Keep the already-visible hero eager after hydration too; preserve all Motion controllers.
+  text=text.replace(/background:\{[^{}]*zreYWHKtYVvdYwuZm8gBYAa3IiA[^{}]*\}/g,block=>block.replace(/loading:[^,]+,/g,'').replace('background:{','background:{loading:"eager",'));
+ }
  // Case studies are now editable HTML pages generated from content/projects.json.
  if(file.includes('script_main.'))text=text.replace(/\w+:\{elements:\{\},page:C\(\(\)=>import\(`[^`]+`\)\),path:`\/case-studies\/[^`]+`\},?/g,'');
  if(['n3aQpPOIiQ-','Du1hgjZRKl','09z_toCCH'].some(prefix=>path.basename(file).startsWith(prefix))){
@@ -117,11 +124,16 @@ for(const rel of ['index.html','work/index.html','about/index.html']){
  html=html.replace(/<!--SM_RAW_(\d+)-->/g,(_,index)=>rawBlocks[Number(index)]);
  for(const [from,to] of Object.entries(links))html=html.replaceAll(from,to.replaceAll('&','&amp;'));
  html=localizeAssets(html).replaceAll('Jackie Zhang',profile.name).replaceAll('aria-label="Product Designer"','aria-label="'+profile.role+'"');
+ if(rel==='index.html')html=homeSemantics(html,true);
  const heading=rel==='index.html'?`${profile.name} — AI, design and code`:rel.startsWith('work/')?'Projects and experiments':`About ${profile.name}`;
  // Keep the accessible heading outside the React hydration container.
  html=html.replace('<div id="main"',`<h1 id="sm-page-heading" class="sm-sr-only">${htmlEscape(heading)}</h1><div role="main" id="main" aria-labelledby="sm-page-heading"`);
  // Lighthouse identified this notebook illustration as the mobile LCP image.
- html=html.replace(/<img\b[^>]*>/g,tag=>tag.includes('zreYWHKtYVvdYwuZm8gBYAa3IiA')?tag.replace(/\s+loading="[^"]*"/g,'').replace('<img ','<img loading="eager" fetchpriority="high" '):tag);
+ html=html.replace(/<img\b[^>]*>/g,tag=>tag.includes('zreYWHKtYVvdYwuZm8gBYAa3IiA')?tag.replace(/\s+(?:loading|fetchpriority|sizes)="[^"]*"/g,'').replace('<img ',`<img loading="eager" fetchpriority="high" sizes="${heroSizes}" `):tag);
+ if(rel==='index.html'){
+  const family=responsiveImages[heroImage],srcset=Object.values(family).map(item=>`/personal/assets/${item.file} ${item.width}w`).join(',');
+  html=html.replace('</head>',`<link rel="preload" as="image" href="/personal/assets/${family.default.file}" imagesrcset="${srcset}" imagesizes="${heroSizes}" fetchpriority="high"></head>`);
+ }
  html=html.replace(/<meta\s+(?:name|property)="(?:description|og:title|og:description|og:image|og:url|twitter:title|twitter:description|twitter:image)"[^>]*>/g,'').replace(/<link[^>]+rel="(?:canonical|icon|apple-touch-icon)"[^>]*>/g,'');
  html=html.replace('</head>',`<meta name="description" content="${htmlEscape(profile.intro)}"><meta property="og:title" content="${profile.name} — AI, design & code"><meta property="og:description" content="${htmlEscape(profile.intro)}"><meta property="og:image" content="/personal/assets/social-card.svg"><link rel="icon" href="/personal/assets/favicon.svg"><link rel="stylesheet" href="/personal/personal.css"><script type="module" src="/personal/personal.js"></script></head>`);
  const page=rel==='index.html'?'/':rel.split('/')[0];
