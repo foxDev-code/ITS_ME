@@ -36,7 +36,9 @@ for(const page of [...pages,{url:'/thank-you'},{url:'/404.html'}]){
  assert(html.includes('href="/terms"'),'Footer terms link: '+page.url);
  for(const face of html.match(/@font-face\s*\{[^}]*\}/g)??[])assert(/font-display\s*:\s*(?:swap|optional)/.test(face),'Do not block text on missing font-display: '+page.url);
  if(page.url==='/'){const data=[...html.matchAll(/type="application\/ld\+json"[^>]*>([^<]+)</g)].map(m=>JSON.parse(m[1]));assert(data.some(d=>d['@type']==='WebSite'&&d.name==='foxDev'&&d.alternateName==='Satyarth Mishra'&&d.url==='https://foxdev-portfolio.vercel.app/'),'Site-name structured data');}
- if(['/','/work','/about'].includes(page.url))assert(/<div role="main" id="main"/.test(html),'Framer root needs a main landmark');
+ assert.equal((html.match(/<h1\b/g)||[]).length,1,'Exactly one page heading: '+page.url);
+ if(['/','/work','/about'].includes(page.url))assert(/<h1 id="sm-page-heading" class="sm-sr-only">[^<]+<\/h1><div role="main" id="main" aria-labelledby="sm-page-heading"/.test(html),'Keep page heading accessible and outside the hydration root');
+ if(page.url==='/privacy')assert(html.includes('Enhanced Measurement is enabled')&&html.includes('does not guarantee')&&html.includes('scrolling, outbound link clicks and file-download clicks'),'Disclose enabled automatic analytics and URL limitations');
  if(page.url==='/')for(const tag of html.match(/<img\b[^>]*>/g).filter(t=>t.includes('zreYWHKtYVvdYwuZm8gBYAa3IiA')))assert(tag.includes('loading="eager"')&&tag.includes('fetchpriority="high"'),'Do not lazy-load the measured mobile LCP illustration');
  if(page.url==='/terms')assert(html.includes('Template — owner review required.')&&html.includes('Third-party designs'),'Terms must preserve third-party ownership and require review');
  for(const match of html.matchAll(/<a\b[^>]*href="(https:\/\/[^"#]+)"/g))external.add(match[1].replaceAll('&amp;','&'));
@@ -47,6 +49,12 @@ for(const file of ['scripts/serve.mjs','scripts/personal-pages.mjs']){
  for(const [old,id] of Object.entries(legacy))assert(deployment.redirects.some(r=>r.source===`/case-studies/${old}/:path*`&&r.destination===`/projects/${id}/`&&r.permanent===true),'Vercel must match local legacy redirects: '+old);
 }
 const runtime=await fs.readFile(root+'/personal/personal.js','utf8');assert(runtime.includes("item.setAttribute('role','button')")&&runtime.includes("event.key==='Enter'||event.key===' '"),'Connect must have a keyboard equivalent');
+// Exercise both handoff orders: React ready before the module, and ready afterwards.
+const handoff=runtime.slice(runtime.indexOf("if(document.documentElement.dataset.smHydrated==='true')"));
+for(const ready of [true,false]){let starts=0,listener;vm.runInNewContext(handoff,{document:{documentElement:{dataset:{smHydrated:ready?'true':undefined}},addEventListener(name,callback,options){assert.equal(name,'sm:hydrated');assert.equal(options.once,true);listener=callback;}},startPersonalization(){starts++;}});assert.equal(starts,Number(ready));if(!ready){listener();assert.equal(starts,1);}}
+const bootstrap=await fs.readFile(root+'/vendor/framerusercontent.com/sites/684hnbMBXBVbej1PQ2QXEz/script_main.BRbenO11.mjs','utf8');
+assert(bootstrap.includes('smEffect(()=>{')&&bootstrap.includes('g(t,_(SmReady,{children:u}),{onRecoverableError:n})'),'Preserve React errors and signal the committed render');
+const bing=await fs.readFile(root+'/BingSiteAuth.xml','utf8');assert.equal(bing,await fs.readFile('content/BingSiteAuth.xml','utf8'));assert(/<user>[A-F0-9]{32}<\/user>/.test(bing),'Bing root verification file');assert(!(await fs.readFile(root+'/sitemap.xml','utf8')).includes('BingSiteAuth'),'Verification file is not a public content page');
 const keyHandler=runtime.match(/item\.addEventListener\('keydown',(event=>\{[^\n]+\})\);/)[1];
 let clicks=0;const onKey=vm.runInNewContext('('+keyHandler+')',{item:{click(){clicks++;}}});
 for(const key of ['Enter',' ','Escape']){const event={key,preventDefault(){this.prevented=true;}};onKey(event);assert.equal(!!event.prevented,key!=='Escape');}assert.equal(clicks,2);

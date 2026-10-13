@@ -36,6 +36,7 @@ const links={
 };
 await fs.mkdir(out,{recursive:true});
 await fs.copyFile('content/google02cefb3da2b660c7.html',path.join(out,'google02cefb3da2b660c7.html'));
+await fs.copyFile('content/BingSiteAuth.xml',path.join(out,'BingSiteAuth.xml'));
 await fs.cp(path.join(source,'vendor'),path.join(out,'vendor'),{recursive:true});
 await fs.mkdir(path.join(out,'personal/assets'),{recursive:true});
 await fs.cp('work/personalization/assets',path.join(out,'personal/assets'),{recursive:true});
@@ -89,7 +90,13 @@ for(const file of await walk(path.join(out,'vendor'))){if(!/\.(mjs|js|json|css)$
  if(/\.(mjs|js)$/.test(file))text=text.replace(/`((?:\\[\s\S]|[^`\\])*)`|"((?:\\[\s\S]|[^"\\])*)"|'((?:\\[\s\S]|[^'\\])*)'/g,(whole,t,d,s)=>{const quote=t!==undefined?'`':d!==undefined?'"':"'";const raw=t??d??s;if(quote==='`'&&raw.includes('${'))return whole;const decoded=decodeString(raw,quote);const value=replaceValue(decoded);return value!==decoded?JSON.stringify(value):whole;});
  else text=localizeAssets(text);
  // Case studies are now editable HTML pages generated from content/projects.json.
- if(file.includes('script_main.'))text=text.replace(/\w+:\{elements:\{\},page:C\(\(\)=>import\(`[^`]+`\)\),path:`\/case-studies\/[^`]+`\},?/g,'');
+ if(file.includes('script_main.')){
+  text=text.replace(/\w+:\{elements:\{\},page:C\(\(\)=>import\(`[^`]+`\)\),path:`\/case-studies\/[^`]+`\},?/g,'');
+  // Signal the React commit before personalization touches its server-rendered DOM.
+  const hydrate='g(t,u,{onRecoverableError:n})',render='h(t,{onRecoverableError:n}).render(u)';
+  if(!text.includes(hydrate)||!text.includes(render))throw Error('Framer bootstrap changed: review the hydration handoff.');
+  text='import {M as smEffect} from "./react.D6X0ds_s.mjs";function SmReady({children}){smEffect(()=>{document.documentElement.dataset.smHydrated="true";document.dispatchEvent(new Event("sm:hydrated"));},[]);return children;}\n'+text.replace(hydrate,'g(t,_(SmReady,{children:u}),{onRecoverableError:n})').replace(render,'h(t,{onRecoverableError:n}).render(_(SmReady,{children:u}))');
+ }
  if(text!==before){await fs.writeFile(file,text);modified++;}
 }
 for(const rel of ['index.html','work/index.html','about/index.html']){
@@ -101,7 +108,9 @@ for(const rel of ['index.html','work/index.html','about/index.html']){
  html=html.replace(/<!--SM_RAW_(\d+)-->/g,(_,index)=>rawBlocks[Number(index)]);
  for(const [from,to] of Object.entries(links))html=html.replaceAll(from,to.replaceAll('&','&amp;'));
  html=localizeAssets(html).replaceAll('Jackie Zhang',profile.name).replaceAll('aria-label="Product Designer"','aria-label="'+profile.role+'"');
- html=html.replace('<div id="main"','<div role="main" id="main"');
+ const heading=rel==='index.html'?`${profile.name} — AI, design and code`:rel.startsWith('work/')?'Projects and experiments':`About ${profile.name}`;
+ // Keep the accessible heading outside the React hydration container.
+ html=html.replace('<div id="main"',`<h1 id="sm-page-heading" class="sm-sr-only">${htmlEscape(heading)}</h1><div role="main" id="main" aria-labelledby="sm-page-heading"`);
  // Lighthouse identified this notebook illustration as the mobile LCP image.
  html=html.replace(/<img\b[^>]*>/g,tag=>tag.includes('zreYWHKtYVvdYwuZm8gBYAa3IiA')?tag.replace(/\s+loading="[^"]*"/g,'').replace('<img ','<img loading="eager" fetchpriority="high" '):tag);
  html=html.replace(/<meta\s+(?:name|property)="(?:description|og:title|og:description|og:image|og:url|twitter:title|twitter:description|twitter:image)"[^>]*>/g,'').replace(/<link[^>]+rel="(?:canonical|icon|apple-touch-icon)"[^>]*>/g,'');

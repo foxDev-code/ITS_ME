@@ -117,4 +117,9 @@ function enhance(){pending=false;const page=location.pathname.replace(/\/$/,'')|
  for(const rail of root.querySelectorAll(':scope > [data-framer-name="Left Frame"], :scope > [data-framer-name="Right Frame"]')){if(!rail.hasAttribute('aria-hidden')){rail.setAttribute('aria-hidden','true');rail.inert=true;}}
  for(const a of document.querySelectorAll('a[target="_blank"]'))if(!a.rel.includes('noopener'))a.rel='noopener noreferrer';
 }
-const observer=new MutationObserver(()=>{if(!pending){pending=true;requestAnimationFrame(enhance)}});observer.observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['src','alt']});observer.observe(document.head,{childList:true,subtree:true});enhance();
+function startPersonalization(){
+ const observer=new MutationObserver(()=>{if(!pending){pending=true;requestAnimationFrame(enhance)}});
+ observer.observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['src','alt']});observer.observe(document.head,{childList:true,subtree:true});enhance();
+}
+if(document.documentElement.dataset.smHydrated==='true')startPersonalization();
+else document.addEventListener('sm:hydrated',startPersonalization,{once:true});

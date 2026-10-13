@@ -1,5 +1,7 @@
 # Expanded launch audit — 12 October 2026
 
+Historical audit. See `LAUNCH-FIXES-2026-10-13.md` for the follow-up fixes and current limitations. Enhanced Measurement remains enabled at the owner's request; the updated privacy wording supersedes this report's earlier recommendation to turn it off.
+
 Scope: both supplied checklist images, the deployed portfolio at https://foxdev-portfolio.vercel.app/, and the corrected local production build. Duplicate checklist items are combined below. This is an engineering audit, not legal advice, a penetration test or a full WCAG certification.
 
 **Verdict: targeted improvements are ready locally; redeploy and remeasure before calling every item complete.** Search Console and Bing are not verified: the owner confirmed this during the audit. No account verification, sitemap submission or indexing request has been made on the owner's behalf.

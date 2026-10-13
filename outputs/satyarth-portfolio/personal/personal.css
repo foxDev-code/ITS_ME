@@ -226,7 +226,7 @@ html[data-personal-case] body{margin:0;background:#242424;color:var(--sm-paper)}
 /* Preserve the reference's independent card drag and spring-return mask. */
 .framer-ZE0X0 [data-framer-name="signature"]::after{font-size:35px;justify-content:center;letter-spacing:-1.5px}
 .framer-gsuqlf> [data-framer-background-image-wrapper]{overflow:hidden}
-img[src*="satyarth-cutout.webp"]{object-fit:contain!important;object-position:center bottom!important}
+img[src*="satyarth-cutout."]{object-fit:contain!important;object-position:center bottom!important}
 /* Keep vermilion artwork unchanged; use readable text tones on each paper/ink surface. */
 :root{--sm-text-on-dark:#f87562;--sm-text-on-paper:#a72f24}
 .sm-kicker,.sm-index-number,.sm-case-nav .sm-wordmark{color:var(--sm-text-on-dark)}
@@ -234,11 +234,37 @@ img[src*="satyarth-cutout.webp"]{object-fit:contain!important;object-position:ce
 .sm-case-header .sm-kicker,.sm-note .sm-kicker,.sm-note h3,.sm-not-found .sm-kicker{color:var(--sm-text-on-paper)}
 .framer-text{--token-9d6e4be8-f5be-4ce8-81f8-c572021c0846:var(--sm-text-on-dark)}
 .framer-text[style*="rgb(227, 83, 66)"]{color:var(--sm-text-on-dark)!important;--framer-text-color:var(--sm-text-on-dark)!important}
-:is([data-framer-name="Paper"],[data-framer-name$="Paper Page"],[data-framer-name="Spiral note"],.framer-cc0928) .framer-text{--token-9d6e4be8-f5be-4ce8-81f8-c572021c0846:var(--sm-text-on-paper)}
-:is([data-framer-name="Paper"],[data-framer-name$="Paper Page"],[data-framer-name="Spiral note"],.framer-cc0928) .framer-text[style*="rgb(227, 83, 66)"]{color:var(--sm-text-on-paper)!important;--framer-text-color:var(--sm-text-on-paper)!important}
+:is([data-framer-name="Paper"],[data-framer-name$="Paper Page"],[data-framer-name="Spiral note"],.framer-cc0928,.framer-1n1sql7) .framer-text{--token-9d6e4be8-f5be-4ce8-81f8-c572021c0846:var(--sm-text-on-paper)}
+:is([data-framer-name="Paper"],[data-framer-name$="Paper Page"],[data-framer-name="Spiral note"],.framer-cc0928,.framer-1n1sql7) .framer-text[style*="rgb(227, 83, 66)"]{color:var(--sm-text-on-paper)!important;--framer-text-color:var(--sm-text-on-paper)!important}
 .framer-f3lfa9::after{color:var(--sm-text-on-paper)}
 .framer-1astofc .framer-text{color:#171717!important;--framer-text-color:#171717!important}
 [data-sm-connect]{min-width:24px;min-height:24px;cursor:pointer}
 [data-sm-connect]:focus-visible{outline:3px solid var(--sm-paper);outline-offset:6px;border-radius:3px}
 .sm-site-index :is(a,button){min-height:24px;display:inline-flex;align-items:center}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}}
+.sm-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+.sm-margin-note p{color:var(--sm-text-on-dark)}
+/* Reflow the fixed-width About notebook instead of clipping its text on phones. */
+@media(max-width:809.98px){
+ html[data-sm-page="/about"] :is(.framer-1n7xs79,.framer-bqboxr){height:auto!important}
+ html[data-sm-page="/about"] .framer-bqboxr{width:calc(100% - 36px)!important;max-width:700px;padding-bottom:16px!important}
+ html[data-sm-page="/about"] .framer-1jlk5xb{inset:12px 0 0!important;width:100%!important;height:auto!important}
+ html[data-sm-page="/about"] .framer-1no1u5q{position:relative!important;inset:auto!important;width:100%!important;height:auto!important;display:flex!important;flex-direction:column!important;gap:24px!important;padding:28px 22px!important;box-sizing:border-box}
+ html[data-sm-page="/about"] :is(.framer-1mxaps5,.framer-1yir115,.framer-1pmautr-container){position:relative!important;inset:auto!important;transform:none!important;width:100%!important;height:auto!important;max-width:100%}
+ html[data-sm-page="/about"] .framer-1yir115{order:0}
+ html[data-sm-page="/about"] .framer-1mxaps5{order:1}
+ html[data-sm-page="/about"] .framer-1pmautr-container{order:2}
+ html[data-sm-page="/about"] .framer-1yir115 .framer-text{font-size:18px!important;line-height:1.4!important}
+ html[data-sm-page="/about"] .framer-1mxaps5 .framer-text{font-size:26px!important;line-height:1.25!important}
+ html[data-sm-page="/about"] .framer-1pmautr-container>.framer-Ax5ws{width:100%!important;height:auto!important;display:flex!important;flex-direction:column!important;align-items:center!important;gap:24px!important}
+ html[data-sm-page="/about"] :is(.framer-10d6rfl-container,.framer-1v46bda){position:relative!important;inset:auto!important;flex:none!important}
+ html[data-sm-page="/about"] .framer-1v46bda{width:100%!important;max-width:355px}
+ html[data-sm-page="/about"] .framer-dcummz{display:none!important}
+ html[data-sm-page="/about"] .framer-1t0rwo4{width:calc(100% - 48px)!important;height:auto!important;display:flex!important;flex-direction:column!important;gap:32px!important}
+ html[data-sm-page="/about"] :is(.framer-1astofc,.framer-cc0928){width:100%!important;height:auto!important;position:relative!important;inset:auto!important;transform:none!important;padding:28px!important;box-sizing:border-box;display:flex!important;flex-direction:column!important;gap:18px!important}
+ html[data-sm-page="/about"] :is(.framer-1astofc,.framer-cc0928)>div{position:relative!important;inset:auto!important;transform:none!important;width:100%!important;max-width:100%!important;height:auto!important}
+ html[data-sm-page="/about"] :is(.framer-1astofc,.framer-cc0928) .framer-text{font-size:18px!important;line-height:1.45!important}
+ html[data-sm-page="/about"] .framer-cc0928{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ html[data-sm-page="/about"] :is(.framer-1w4k1jk,.framer-vdtxgt){grid-column:1/-1}
+ html[data-sm-page="/about"] .framer-cc0928>:is(.framer-96rsjr,.framer-f729uj,.framer-1kgy1ud,.framer-1l7iqmu){height:120px!important}
+}
