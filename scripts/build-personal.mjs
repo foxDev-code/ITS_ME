@@ -79,28 +79,37 @@ function decodeString(raw,quote){
  return raw.replace(/\\u\{([\da-f]+)\}|\\u([\da-f]{4})|\\x([\da-f]{2})|\\([nrt\\'"`])/gi,(_,wide,unicode,hex,escaped)=>wide||unicode||hex?String.fromCodePoint(parseInt(wide||unicode||hex,16)):({n:'\n',r:'\r',t:'\t'}[escaped]??escaped));
 }
 async function walk(dir){const files=[];for(const item of await fs.readdir(dir,{withFileTypes:true})){const full=path.join(dir,item.name);if(item.isDirectory())files.push(...await walk(full));else files.push(full)}return files;}
+function personalizeWork(text,markup=false){
+ if(markup)text=text.replace(/>(Who's Speaking|Triple Time|ResQued)<\/p>[\s\S]*?(?=<div class="framer-h1nwjz")/g,(block,title)=>title==="Who's Speaking"?block.replace('>creator<','>contributor<'):title==='Triple Time'?block.replace('>2025<','>Prototype<'):block.replace('>Founding Product Designer<','>Web developer<'));
+ else text=text.replace(/a\(Z,\{[\s\S]*?XapXkaNR5:`([^`]*)`\}\)/g,(block,title)=>title==="Who's Speaking"?block.replace('AM_Uz7jtd:`creator`','AM_Uz7jtd:`contributor`'):title==='Triple Time'?block.replace('rimFueKV0:`2025`','rimFueKV0:`Prototype`'):title==='ResQued'?block.replace('AM_Uz7jtd:`Founding Product Designer`','AM_Uz7jtd:`Web developer`'):block);
+ const marker=name=>markup?`class="${name}"`:'className:`'+name+'`';
+ const section=(start,end,patch)=>{let matches=0;text=text.replace(new RegExp(marker(start)+'[\\s\\S]*?(?='+marker(end)+')','g'),part=>{matches++;return patch(part)});if(!matches)throw Error('Missing Work component boundary: '+start);};
+ const replace=(part,from,to)=>part.replaceAll(from,to).replaceAll(htmlEscape(from),htmlEscape(to));
+ section('framer-roufdp-container','framer-1muoi1b',part=>{
+  for(const [from,to] of [['Platform to stream on Heygo.','PDF extraction, semantic retrieval and structured document analysis.'],['Better streaming experience also increased tipping by 8%/stream','FastAPI connects the review interface to Gemini and Pinecone.'],['Increased tap through from the feed into the post. Which led to higher retention and more "aha" moments','Requirements-to-test workflows with AI-assisted planning, automation generation and failure analysis.'],['Logbox: Medical • B2B SaaS','Explore more prototypes on GitHub.']])part=replace(part,from,to);
+  return part;
+ });
+ section('framer-m4dmhz-container','framer-1ymsxrh',part=>replace(part,'Increased tap through from the feed into the post. Which led to higher retention and more "aha" moments','Ticket booking, QR presentation and journey history in one passenger flow.').replace(/\/vendor\/framerusercontent\.com\/images\/FF0v8B2xhAfWfJeXfK4H4RnhRRw\.png(?:\?[^\s`"<>]+)?/g,'/personal/assets/metro-flow.svg'));
+ return text;
+}
 let modified=0;
 for(const file of await walk(path.join(out,'vendor'))){if(!/\.(mjs|js|json|css)$/.test(file))continue;let text=await fs.readFile(file,'utf8');const before=text;
- if(file.includes('/09z_toCCH')||file.includes('\\09z_toCCH')){
-  text=text.replace(/a\(Z,\{[\s\S]*?XapXkaNR5:`([^`]*)`\}\)/g,(block,title)=>title==="Who's Speaking"?block.replace('AM_Uz7jtd:`creator`','AM_Uz7jtd:`contributor`'):title==='Triple Time'?block.replace('rimFueKV0:`2025`','rimFueKV0:`Prototype`'):title==='ResQued'?block.replace('AM_Uz7jtd:`Founding Product Designer`','AM_Uz7jtd:`Web developer`'):block);
-  const patchSection=(startMarker,endMarker,patch)=>{const start=text.indexOf(startMarker),end=text.indexOf(endMarker,start);if(start<0||end<start)throw Error('Missing reference component boundary');text=text.slice(0,start)+patch(text.slice(start,end))+text.slice(end);};
-  patchSection('className:`framer-roufdp-container`','className:`framer-1muoi1b`',part=>part.replaceAll('Platform to stream on Heygo.','PDF extraction, semantic retrieval and structured document analysis.').replaceAll('Better streaming experience also increased tipping by 8%/stream','FastAPI connects the review interface to Gemini and Pinecone.').replaceAll('Increased tap through from the feed into the post. Which led to higher retention and more "aha" moments','Requirements-to-test workflows with AI-assisted planning, automation generation and failure analysis.').replaceAll('Logbox: Medical • B2B SaaS','Explore more prototypes on GitHub.'));
-  patchSection('className:`framer-m4dmhz-container`','className:`framer-1ymsxrh`',part=>part.replaceAll('Increased tap through from the feed into the post. Which led to higher retention and more "aha" moments','Ticket booking, QR presentation and journey history in one passenger flow.').replace(/\/vendor\/framerusercontent\.com\/images\/FF0v8B2xhAfWfJeXfK4H4RnhRRw\.png\?[^\s`]+/g,'/personal/assets/metro-flow.svg'));
- }
+ if(path.basename(file).startsWith('09z_toCCH'))text=personalizeWork(text);
  if(/\.(mjs|js)$/.test(file))text=text.replace(/`((?:\\[\s\S]|[^`\\])*)`|"((?:\\[\s\S]|[^"\\])*)"|'((?:\\[\s\S]|[^'\\])*)'/g,(whole,t,d,s)=>{const quote=t!==undefined?'`':d!==undefined?'"':"'";const raw=t??d??s;if(quote==='`'&&raw.includes('${'))return whole;const decoded=decodeString(raw,quote);const value=replaceValue(decoded);return value!==decoded?JSON.stringify(value):whole;});
  else text=localizeAssets(text);
  // Case studies are now editable HTML pages generated from content/projects.json.
- if(file.includes('script_main.')){
-  text=text.replace(/\w+:\{elements:\{\},page:C\(\(\)=>import\(`[^`]+`\)\),path:`\/case-studies\/[^`]+`\},?/g,'');
-  // Signal the React commit before personalization touches its server-rendered DOM.
-  const hydrate='g(t,u,{onRecoverableError:n})',render='h(t,{onRecoverableError:n}).render(u)';
-  if(!text.includes(hydrate)||!text.includes(render))throw Error('Framer bootstrap changed: review the hydration handoff.');
-  text='import {M as smEffect} from "./react.D6X0ds_s.mjs";function SmReady({children}){smEffect(()=>{document.documentElement.dataset.smHydrated="true";document.dispatchEvent(new Event("sm:hydrated"));},[]);return children;}\n'+text.replace(hydrate,'g(t,_(SmReady,{children:u}),{onRecoverableError:n})').replace(render,'h(t,{onRecoverableError:n}).render(_(SmReady,{children:u}))');
+ if(file.includes('script_main.'))text=text.replace(/\w+:\{elements:\{\},page:C\(\(\)=>import\(`[^`]+`\)\),path:`\/case-studies\/[^`]+`\},?/g,'');
+ if(['n3aQpPOIiQ-','Du1hgjZRKl','09z_toCCH'].some(prefix=>path.basename(file).startsWith(prefix))){
+  // The page is inside Framer's Suspense boundary; a root effect fires too early.
+  const pageRoot='function(e,n){';
+  if(text.split(pageRoot).length!==2)throw Error('Framer page changed: review the hydration handoff.');
+  text='import {M as smEffect} from "./react.D6X0ds_s.mjs";\n'+text.replace(pageRoot,pageRoot+'smEffect(()=>{document.documentElement.dataset.smHydrated="true";document.dispatchEvent(new Event("sm:hydrated"));},[]);');
  }
  if(text!==before){await fs.writeFile(file,text);modified++;}
 }
 for(const rel of ['index.html','work/index.html','about/index.html']){
  let html=await fs.readFile(path.join(source,rel),'utf8');
+ if(rel==='work/index.html')html=personalizeWork(html,true);
  // Change text nodes and attributes without disturbing production element geometry.
  const rawBlocks=[];
  html=html.replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/g,block=>{rawBlocks.push(block);return `<!--SM_RAW_${rawBlocks.length-1}-->`});

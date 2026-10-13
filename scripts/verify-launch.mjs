@@ -14,6 +14,7 @@ assert.equal(ratio('ffffff','ffffff'),1);assert.equal(ratio('000000','ffffff'),2
 const styles=await fs.readFile(root+'/personal/personal.css','utf8');
 const tone=name=>styles.match(new RegExp('--sm-'+name+':#([a-f0-9]{6})'))[1];
 assert(styles.includes('.framer-1astofc .framer-text{color:#171717!important'),'Use sufficiently dark text on the vermilion card');
+assert(styles.includes('.framer-zn3ahb) .framer-text')&&styles.includes('.framer-Ax5ws h3.framer-text{color:var(--sm-text-on-paper)!important'),'Keep mobile hero and About role text readable on cream paper');
 const contrast=[[tone('text-on-dark'),tone('ink')],[tone('text-on-paper'),tone('paper')],['171717',tone('red')],[tone('ink'),tone('paper')]].map(([foreground,background])=>({foreground,background,ratio:ratio(foreground,background)}));
 for(const pair of contrast)assert(pair.ratio>=4.5,'Text contrast: '+JSON.stringify(pair));
 const patterns={privateKey:/-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/,awsAccessKey:/\b(?:AKIA|ASIA)[A-Z0-9]{16}\b/,googleApiKey:/\bAIza[0-9A-Za-z_-]{35}\b/,githubToken:/\b(?:ghp|gho|ghs|ghu)_[A-Za-z0-9]{30,}\b/,githubFineGrained:/\bgithub_pat_[A-Za-z0-9_]{50,}\b/,providerSecret:/\bsk-(?:proj-|ant-)?[A-Za-z0-9_-]{32,}\b/};
@@ -53,7 +54,13 @@ const runtime=await fs.readFile(root+'/personal/personal.js','utf8');assert(runt
 const handoff=runtime.slice(runtime.indexOf("if(document.documentElement.dataset.smHydrated==='true')"));
 for(const ready of [true,false]){let starts=0,listener;vm.runInNewContext(handoff,{document:{documentElement:{dataset:{smHydrated:ready?'true':undefined}},addEventListener(name,callback,options){assert.equal(name,'sm:hydrated');assert.equal(options.once,true);listener=callback;}},startPersonalization(){starts++;}});assert.equal(starts,Number(ready));if(!ready){listener();assert.equal(starts,1);}}
 const bootstrap=await fs.readFile(root+'/vendor/framerusercontent.com/sites/684hnbMBXBVbej1PQ2QXEz/script_main.BRbenO11.mjs','utf8');
-assert(bootstrap.includes('smEffect(()=>{')&&bootstrap.includes('g(t,_(SmReady,{children:u}),{onRecoverableError:n})'),'Preserve React errors and signal the committed render');
+assert(!bootstrap.includes('SmReady')&&bootstrap.includes('g(t,u,{onRecoverableError:n})'),'Keep native hydration errors visible; the root cannot signal deferred-page readiness');
+const vendor=root+'/vendor/framerusercontent.com/sites/684hnbMBXBVbej1PQ2QXEz/';
+for(const prefix of ['n3aQpPOIiQ-','Du1hgjZRKl','09z_toCCH']){const file=(await fs.readdir(vendor)).find(name=>name.startsWith(prefix)&&name.endsWith('.mjs'));assert((await fs.readFile(vendor+file,'utf8')).includes('function(e,n){smEffect(()=>{document.documentElement.dataset.smHydrated="true";'),'Wait for the actual page commit: '+file);}
+const workHTML=await fs.readFile(root+'/work/index.html','utf8');
+for(const [title,role] of [['Synapse Club','contributor'],['QA Matrix','AI product builder'],['MCQ Lab','Web developer']]){const cards=[...workHTML.matchAll(new RegExp('<div class="framer-6kplfv"[^>]*><p\\b[^>]*>'+title+'<\\/p>[\\s\\S]*?(?=<div class="framer-h1nwjz")','g'))];assert.equal(cards.length,3,'Keep every SSR breakpoint in sync: '+title);for(const card of cards)assert(card[0].includes('>'+role+'<'),'SSR role differs from client: '+title);}
+assert.equal((workHTML.match(/>Prototype<\/p>/g)||[]).length,3,'SSR project dates must match the client');
+for(const text of ['PDF extraction, semantic retrieval and structured document analysis.','FastAPI connects the review interface to Gemini and Pinecone.'])assert(workHTML.includes(text),'SSR project details must match the client: '+text);
 const bing=await fs.readFile(root+'/BingSiteAuth.xml','utf8');assert.equal(bing,await fs.readFile('content/BingSiteAuth.xml','utf8'));assert(/<user>[A-F0-9]{32}<\/user>/.test(bing),'Bing root verification file');assert(!(await fs.readFile(root+'/sitemap.xml','utf8')).includes('BingSiteAuth'),'Verification file is not a public content page');
 const keyHandler=runtime.match(/item\.addEventListener\('keydown',(event=>\{[^\n]+\})\);/)[1];
 let clicks=0;const onKey=vm.runInNewContext('('+keyHandler+')',{item:{click(){clicks++;}}});

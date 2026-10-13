@@ -234,8 +234,9 @@ img[src*="satyarth-cutout."]{object-fit:contain!important;object-position:center
 .sm-case-header .sm-kicker,.sm-note .sm-kicker,.sm-note h3,.sm-not-found .sm-kicker{color:var(--sm-text-on-paper)}
 .framer-text{--token-9d6e4be8-f5be-4ce8-81f8-c572021c0846:var(--sm-text-on-dark)}
 .framer-text[style*="rgb(227, 83, 66)"]{color:var(--sm-text-on-dark)!important;--framer-text-color:var(--sm-text-on-dark)!important}
-:is([data-framer-name="Paper"],[data-framer-name$="Paper Page"],[data-framer-name="Spiral note"],.framer-cc0928,.framer-1n1sql7) .framer-text{--token-9d6e4be8-f5be-4ce8-81f8-c572021c0846:var(--sm-text-on-paper)}
-:is([data-framer-name="Paper"],[data-framer-name$="Paper Page"],[data-framer-name="Spiral note"],.framer-cc0928,.framer-1n1sql7) .framer-text[style*="rgb(227, 83, 66)"]{color:var(--sm-text-on-paper)!important;--framer-text-color:var(--sm-text-on-paper)!important}
+:is([data-framer-name="Paper"],[data-framer-name$="Paper Page"],[data-framer-name="Spiral note"],.framer-cc0928,.framer-1n1sql7,.framer-zn3ahb) .framer-text{--token-9d6e4be8-f5be-4ce8-81f8-c572021c0846:var(--sm-text-on-paper)}
+:is([data-framer-name="Paper"],[data-framer-name$="Paper Page"],[data-framer-name="Spiral note"],.framer-cc0928,.framer-1n1sql7,.framer-zn3ahb) .framer-text[style*="rgb(227, 83, 66)"]{color:var(--sm-text-on-paper)!important;--framer-text-color:var(--sm-text-on-paper)!important}
+html[data-sm-page="/about"] .framer-Ax5ws h3.framer-text{color:var(--sm-text-on-paper)!important;--framer-text-color:var(--sm-text-on-paper)!important}
 .framer-f3lfa9::after{color:var(--sm-text-on-paper)}
 .framer-1astofc .framer-text{color:#171717!important;--framer-text-color:#171717!important}
 [data-sm-connect]{min-width:24px;min-height:24px;cursor:pointer}
