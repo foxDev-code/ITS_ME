@@ -15,7 +15,7 @@ const styles=await fs.readFile(root+'/personal/personal.css','utf8');
 const tone=name=>styles.match(new RegExp('--sm-'+name+':#([a-f0-9]{6})'))[1];
 assert(styles.includes('.framer-1astofc .framer-text{color:#171717!important'),'Use sufficiently dark text on the vermilion card');
 assert(styles.includes('.framer-zn3ahb) .framer-text')&&styles.includes('.framer-Ax5ws h3.framer-text{color:var(--sm-text-on-paper)!important'),'Keep mobile hero and About role text readable on cream paper');
-assert(styles.includes('html[data-sm-page="/"] .framer-faJ30 *{pointer-events:none!important}'),'Decorative note deck must not intercept artwork clicks');
+assert(styles.includes('html[data-sm-page="/"] div:has(>.framer-faJ30),')&&styles.includes('html[data-sm-page="/"] .framer-faJ30 *{pointer-events:none!important}'),'Decorative note deck and wrapper must not intercept artwork clicks');
 const contrast=[[tone('text-on-dark'),tone('ink')],[tone('text-on-paper'),tone('paper')],['171717',tone('red')],[tone('ink'),tone('paper')]].map(([foreground,background])=>({foreground,background,ratio:ratio(foreground,background)}));
 for(const pair of contrast)assert(pair.ratio>=4.5,'Text contrast: '+JSON.stringify(pair));
 const patterns={privateKey:/-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/,awsAccessKey:/\b(?:AKIA|ASIA)[A-Z0-9]{16}\b/,googleApiKey:/\bAIza[0-9A-Za-z_-]{35}\b/,githubToken:/\b(?:ghp|gho|ghs|ghu)_[A-Za-z0-9]{30,}\b/,githubFineGrained:/\bgithub_pat_[A-Za-z0-9_]{50,}\b/,providerSecret:/\bsk-(?:proj-|ant-)?[A-Za-z0-9_-]{32,}\b/};
