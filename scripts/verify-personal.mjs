@@ -87,7 +87,7 @@ assert(!styles.includes('[data-framer-name="Left Frame"],html[data-sm-page="/"] 
 const mediaVariants=JSON.parse(await fs.readFile('content/media-variants.json'));
 assert(enhancements.includes(mediaVariants['fox-seal.png']??'fox-seal.png')&&enhancements.includes("'QA Matrix':'/projects/qa-matrix/'"),'Decorate and correctly link Side Quests');
 await fs.access(path.join(root,'personal/assets/fox-seal.png'));
-assert.equal(profile.intro,'I turn ideas into intelligent products—connecting machine learning, thoughtful interfaces and visual storytelling.','Opening introduction must stay unchanged');
+assert.equal(profile.intro,'I turn ideas into intelligent products—connecting machine learning, thoughtful interfaces and visual storytelling. I also work with Blender for 3D modeling, alongside motion design and web design.','Preserve the approved introduction and creative skills');
 // Regression: the stacked value cards require opaque paper, not icon-only SVGs.
 const home=await fs.readFile(path.join(root,'index.html'),'utf8');
 const publicPages=JSON.parse(await fs.readFile(path.join(root,'personal/pages.json'),'utf8'));
