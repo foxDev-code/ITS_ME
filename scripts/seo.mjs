@@ -56,7 +56,7 @@ export async function buildSEO(out,projects,profile,origin){
   html=html.replace(/<title>[\s\S]*?<\/title>/gi,'').replace(/<meta\b(?=[^>]*(?:name|property)="(?:description|og:[^"]+|twitter:[^"]+)")[^>]*>/gi,'').replace(/<link\b(?=[^>]*rel="canonical")[^>]*>/gi,'');
   html=applyAlts(html).replace(/<meta\b[^>]*name="robots"[^>]*>/gi,'').replace('</head>',`<title>${escape(page.title)}</title><meta name="description" content="${escape(page.description)}">${shareTags(page,origin)}<link rel="canonical" href="${escape(origin+page.url)}"></head>`);
   if(page.url==='/')html=html.replace('</head>',`<script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@type':'WebSite',name:profile.siteName,alternateName:profile.name,url:origin+'/'}).replaceAll('<','\\u003c')}</script></head>`);
-  const projectLinks=page.url==='/work'?`<p>Explore the project stories</p><nav aria-label="All project stories">${projects.map(p=>`<a href="/projects/${escape(p.id)}/">${escape(p.name)}</a>`).join('')}</nav>`:'';
+  const projectLinks=page.url==='/work'?`<p>Explore the project stories</p><nav aria-label="All project stories">${projects.map(p=>`<a href="/projects/${escape(p.id)}/">${escape(p.name)}</a>`).join('')}<a href="https://foxdev-portfolio2.vercel.app/" target="_blank" rel="noopener noreferrer">Portfolio 02 ↗</a></nav>`:'';
   html=html.replace('</body>',`${page.url==='/about'?aboutSections:''}<footer class="sm-site-index">${projectLinks}${nav}</footer>${consentMarkup(gaId)}</body>`);
   await fs.writeFile(file,html);
  }
